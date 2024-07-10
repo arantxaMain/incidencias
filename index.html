@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Registro de incidencias</title>
+    <link rel="stylesheet" href="estilo.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+</head>
+
+<body>
+    <div class="div-cabecera">
+        <h1>Registro de incidencias</h1>
+        <div class="div-iconos">
+            <i class="fa-solid fa-upload"></i>
+            <i class="fa-solid fa-download"></i>
+        </div>
+    </div>
+    
+    <div class="div-principal">
+        <div>
+            <input type="checkbox" id="chkHora" checked="true">
+            <label for="hora">Usar Hora de Inicio / Hora de fin</label>
+        </div>
+
+        <div>
+            <label for="incidencia" class="label-txt">Incidencia:</label>
+            <input type="text" id="input-incidencia" class="input-box">
+        </div>
+
+        <div class="div-doble">
+            <div class="col">
+                <label for="inicio" class="label-txt">Hora de inicio:</label>
+                <input type="time" id="input-inicio" class="input-box">
+                <button type="button" class="boton-hora" id="boton-inicio">Ahora</button>
+            </div>
+            <div class="col">
+                <label for="fin" class="label-txt">Hora de fin:</label>
+                <input type="time" id="input-fin" class="input-box">
+                <button type="button" class="boton-hora" id="boton-fin">Ahora</button>
+            </div>
+        </div>
+        
+        <div class="div-doble">
+            <button type="button" class="boton-registro" id="boton-registrar">Registrar</button>
+            <button type="button" class="boton-registro" id="boton-borrar">Borrar</button>
+        </div>
+
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Incidencia</th>
+                        <th>Horas y minutos</th>
+                        <th>Rango</th>
+                        <th>Editar</th>
+                        <th>Borrar</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td id="output"></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
