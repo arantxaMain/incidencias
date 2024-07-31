@@ -128,9 +128,11 @@ table {
 
 .fa-pen-to-square {
   color: #bfa5a3;
+  cursor: pointer;
 }
 
 .fa-trash {
   color: #bc4749;
+  cursor: pointer;
 }
 

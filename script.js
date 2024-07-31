@@ -71,6 +71,19 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       return null;
     }
+
+    if (minTotales == 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Por favor, ingresa un tiempo válido (más de 0 minutos)',
+        toast: true,
+        position: 'center',
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      return null;
+    }
+
     return minTotales;
   }
 
@@ -160,6 +173,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
       celdaEditar.appendChild(iconoEditar);
       celdaBorrar.appendChild(iconoBorrar);
+
+      iconoEditar.addEventListener('click', function() {
+        console.log('funciona');
+      });
+
+      iconoBorrar.addEventListener('click', function() {
+        nuevaFila.remove();
+      })
     });
   }
 
