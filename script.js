@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
+  class Incidencia {
+    constructor(nombre, horas, minutos, rango) {
+      this.nombre = nombre;
+      this.horas = horas;
+      
+    }
+  }
   const botonInicio = document.getElementById('boton-inicio');
   const botonFin = document.getElementById('boton-fin');
   const inputInicio = document.getElementById('input-inicio');
@@ -90,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       decimales = 1;
     }
-
     return parteEntera + decimales;
   }
 

@@ -1,5 +1,5 @@
-import { actualizarBotones, setHoraActual, registrar } from 'form.js';
-import { actualizarTabla } from 'table.js';
+import { actualizarBotones, setHoraActual, registrar } from './form.js';
+import { actualizarTabla } from './table.js';
 
 // Se ejecuta cuando el contenido del DOM se ha cargado
 document.addEventListener('DOMContentLoaded', function () {

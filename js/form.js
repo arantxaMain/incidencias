@@ -1,5 +1,5 @@
-import { calcularRango, extraerMinutos, extraerTexto } from 'utils.js';
-import { actualizarTabla } from 'table.js';
+import { calcularRango, extraerMinutos, extraerTexto } from './utils.js';
+import { actualizarTabla } from './table.js';
 
 export function actualizarBotones() {
   const checkbox = document.getElementById('chkHora');
