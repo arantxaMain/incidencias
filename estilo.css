@@ -1,5 +1,5 @@
 body {
-  color: rgb(73, 73, 73);
+  color: #574240;
   font-family: Arial, Helvetica, sans-serif;
   height: 100%;
   margin: 0;
@@ -91,15 +91,15 @@ input {
 }
 
 #boton-registrar {
-  background-color: #6a994e;
+  background-color: #92ac48;
   border-style: none;
   color: white;
 }
 
 #boton-registrar:hover {
   background-color: white;
-  border: 2px solid #6a994e;
-  color: #6a994e;
+  border: 2px solid #92ac48;
+  color: #92ac48;
 }
 
 #boton-borrar {
@@ -125,3 +125,12 @@ table {
     text-align: center;
   }
 }
+
+.fa-pen-to-square {
+  color: #bfa5a3;
+}
+
+.fa-trash {
+  color: #bc4749;
+}
+
