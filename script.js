@@ -140,15 +140,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     incidencias.forEach((minTotales, nombre) => {
-      const nuevaFila = tabla.insertRow();
-
       const horas = Math.floor(minTotales / 60);
       const minutos = minTotales % 60;
       const rango = calcularRango(minTotales);
 
+      const iconoEditar = document.createElement('i');
+      iconoEditar.className ='fa-solid fa-pen-to-square';
+      const iconoBorrar = document.createElement('i');
+      iconoBorrar.className ='fa-solid fa-trash';
+
+      const nuevaFila = tabla.insertRow();
+
       nuevaFila.insertCell().textContent = nombre;
       nuevaFila.insertCell().textContent = `${horas}h ${minutos}m`;
       nuevaFila.insertCell().textContent = rango;
+
+      const celdaEditar = nuevaFila.insertCell();
+      const celdaBorrar = nuevaFila.insertCell();
+
+      celdaEditar.appendChild(iconoEditar);
+      celdaBorrar.appendChild(iconoBorrar);
     });
   }
 
