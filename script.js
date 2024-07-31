@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const tabla = document.querySelector('table tbody');
   let incidencias = new Map();
 
+  cargarIncidencias();
+
   function actualizarBotones() {
     for (let i = 0; i < botones.length; i++) {
       botones[i].style.display = checkbox.checked ? 'block' : 'none';
@@ -126,6 +128,9 @@ document.addEventListener('DOMContentLoaded', function () {
     inputText.value = '';
     inputInicio.value = '';
     inputFin.value = '';
+
+    //guardar incidencias en local storage
+    guardarIncidencias();
   }
 
   function actualizarTabla() {
@@ -145,6 +150,22 @@ document.addEventListener('DOMContentLoaded', function () {
       nuevaFila.insertCell().textContent = `${horas}h ${minutos}m`;
       nuevaFila.insertCell().textContent = rango;
     });
+  }
+
+  //guardar mapa en local storage
+  function guardarIncidencias() {
+    const objIncicendias = Object.fromEntries(incidencias);
+    localStorage.setItem('incidencias', JSON.stringify(objIncicendias));
+  }
+
+  //cargar mapa desde local storage
+  function cargarIncidencias() {
+    const jsonIncidencias = localStorage.getItem('incidencias');
+    if(jsonIncidencias) {
+      const objIncicendias = JSON.parse(jsonIncidencias);
+      incidencias = new Map(Object.entries(objIncicendias));
+      actualizarTabla();
+    }
   }
 
   actualizarBotones();
