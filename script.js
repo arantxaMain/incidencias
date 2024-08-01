@@ -210,13 +210,12 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       botonBorrarIncidencia.addEventListener('click', () => {
-        eliminarIncidencia(nombre);
+        eliminarIncidencia(nombre, inputNombre);
       });
     });
   }
 
-  function editarIncidencia(nombre) {
-
+  function editarIncidencia(nombre, inputNombre) {
     actualizarTablaIncidencias();
     actualizarTablaTiempos();
     guardarIncidencias();

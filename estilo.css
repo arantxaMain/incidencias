@@ -139,18 +139,16 @@ input {
 
     .input {
       background-color: inherit;
-      border: none;
       color: inherit;
       font-size: inherit;
       text-align: center;
     }
 
     .input[readonly] {
-      outline: none;
+      border: none;
       cursor: default;
+      outline: none;
     }
-
-
   }
 }
 
