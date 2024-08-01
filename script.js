@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function actualizarTablaIncidencias() {
     //limpiar tabla para evitar duplicados
-    while(tablaIncidencias.firstChild) {
+    while (tablaIncidencias.firstChild) {
       tablaIncidencias.removeChild(tablaIncidencias.firstChild);
     }
 
@@ -160,13 +160,13 @@ document.addEventListener('DOMContentLoaded', function () {
       const botonEditarIncidencia = document.createElement('button');
       botonEditarIncidencia.className = 'boton-editar-incidencia';
       const iconoEditar = document.createElement('i');
-      iconoEditar.className ='fa-solid fa-pen-to-square';
+      iconoEditar.className = 'fa-solid fa-pen-to-square';
       botonEditarIncidencia.appendChild(iconoEditar);
-      
+
       const botonBorrarIncidencia = document.createElement('button');
       botonBorrarIncidencia.className = 'boton-borrar-incidencia';
       const iconoBorrar = document.createElement('i');
-      iconoBorrar.className ='fa-solid fa-trash';
+      iconoBorrar.className = 'fa-solid fa-trash';
       botonBorrarIncidencia.appendChild(iconoBorrar);
 
       const nuevaFila = tablaIncidencias.insertRow();
@@ -181,10 +181,10 @@ document.addEventListener('DOMContentLoaded', function () {
       celdaEditar.appendChild(botonEditarIncidencia);
       celdaBorrar.appendChild(botonBorrarIncidencia);
 
-      botonBorrarIncidencia.addEventListener('click', function() {
+      botonBorrarIncidencia.addEventListener('click', function () {
         //TODO implementar
       });
-    
+
       botonBorrarIncidencia.addEventListener('click', () => {
         eliminarIncidencia(nombre);
       });
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
   //cargar mapa desde local storage
   function cargarIncidencias() {
     const jsonIncidencias = localStorage.getItem('incidencias');
-    if(jsonIncidencias) {
+    if (jsonIncidencias) {
       const objIncicendias = JSON.parse(jsonIncidencias);
       incidencias = new Map(Object.entries(objIncicendias));
       actualizarTablaIncidencias();
@@ -237,8 +237,21 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   botonBorrar.addEventListener('click', function () {
-    incidencias.clear();
-    actualizarTablaIncidencias();
-    localStorage.removeItem('incidencias');
+    Swal.fire({
+      icon: 'warning',
+      title: '¿Estás seguro?',
+      text: 'Se van a eliminar todas las incidencias',
+      position: 'center',
+      showConfirmButton: true,
+      confirmButtonText: 'Si',
+      showDenyButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Sesión borrada con éxito", "", "success");
+        incidencias.clear();
+        actualizarTablaIncidencias();
+        localStorage.removeItem('incidencias');
+      }
+    });
   });
 });
