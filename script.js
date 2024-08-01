@@ -157,10 +157,17 @@ document.addEventListener('DOMContentLoaded', function () {
       const minutos = minTotales % 60;
       const rango = calcularRango(minTotales);
 
+      const botonEditarIncidencia = document.createElement('button');
+      botonEditarIncidencia.className = 'boton-editar-incidencia';
       const iconoEditar = document.createElement('i');
       iconoEditar.className ='fa-solid fa-pen-to-square';
+      botonEditarIncidencia.appendChild(iconoEditar);
+      
+      const botonBorrarIncidencia = document.createElement('button');
+      botonBorrarIncidencia.className = 'boton-borrar-incidencia';
       const iconoBorrar = document.createElement('i');
       iconoBorrar.className ='fa-solid fa-trash';
+      botonBorrarIncidencia.appendChild(iconoBorrar);
 
       const nuevaFila = tabla.insertRow();
 
@@ -171,11 +178,11 @@ document.addEventListener('DOMContentLoaded', function () {
       const celdaEditar = nuevaFila.insertCell();
       const celdaBorrar = nuevaFila.insertCell();
 
-      celdaEditar.appendChild(iconoEditar);
-      celdaBorrar.appendChild(iconoBorrar);
+      celdaEditar.appendChild(botonEditarIncidencia);
+      celdaBorrar.appendChild(botonBorrarIncidencia);
 
       iconoEditar.addEventListener('click', function() {
-        console.log('funciona');
+        //TODO implementar
       });
 
       iconoBorrar.addEventListener('click', function() {

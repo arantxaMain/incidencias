@@ -117,13 +117,32 @@ input {
 table {
   margin-top: 2rem;
   width: 100%;
+  box-shadow: 0 12px 16px 0 rgba(182, 182, 182, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 
   th,
   td {
-    border-bottom: 1px solid rgb(185, 185, 185);
     padding: 0.5rem 1rem 0.5rem 1rem;
     text-align: center;
   }
+
+  tr:nth-child(odd) {
+    background-color: #f7f7f7;
+  }
+
+  tr:nth-child(odd) .boton-editar-incidencia,
+  tr:nth-child(odd) .boton-borrar-incidencia {
+    background-color: #ffffff;
+  }
+}
+
+.boton-editar-incidencia,
+.boton-borrar-incidencia {
+  background-color: #f7f7f7;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  height: 25px;
 }
 
 .fa-pen-to-square {
@@ -135,4 +154,3 @@ table {
   color: #bc4749;
   cursor: pointer;
 }
-
