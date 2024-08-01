@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const botonRegistrar = document.getElementById('boton-registrar');
   const botonBorrar = document.getElementById('boton-borrar');
   const inputText = document.getElementById('input-incidencia');
-  const tablaIncidencias = document.querySelector('table tbody');
+  const tablaIncidencias = document.querySelector('#tabla-incidencias tbody');
   let incidencias = new Map();
 
   cargarIncidencias();
