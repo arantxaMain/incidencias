@@ -139,6 +139,16 @@ input {
   }
 }
 
+#tabla-tiempos {
+  width: 100%;
+
+  th,
+  td {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    text-align: center;
+  }
+}
+
 .boton-editar-incidencia,
 .boton-borrar-incidencia {
   background-color: #f7f7f7;
@@ -156,8 +166,4 @@ input {
 .fa-trash {
   color: #bc4749;
   cursor: pointer;
-}
-
-#tabla-tiempos {
-  width: 100%;
 }

@@ -9,9 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const botonBorrar = document.getElementById('boton-borrar');
   const inputText = document.getElementById('input-incidencia');
   const tablaIncidencias = document.querySelector('#tabla-incidencias tbody');
+  const tablaTiempos = document.querySelector('#tabla-tiempos tbody');
   let incidencias = new Map();
 
   cargarIncidencias();
+  actualizarTablaTiempos();
 
   function actualizarBotones() {
     for (let i = 0; i < botones.length; i++) {
@@ -83,8 +85,23 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       return null;
     }
-
     return minTotales;
+  }
+
+  //calcular tiempo total
+  function calcularTiempoTotal() {
+    let tiempoTotal = 0;
+    for(const [, minTotales] of incidencias) {
+      tiempoTotal += minTotales;
+    }
+    return tiempoTotal;
+  }
+
+  //pasar a horas y minutos
+  function pasarHorasMin(int) {
+    const horas = Math.floor(int / 60);
+    const min = int % 60;
+    return `${horas}h ${min}m`;
   }
 
   function calcularRango(int) {
@@ -136,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //actualizar tabla incidencias
     actualizarTablaIncidencias();
+    actualizarTablaTiempos();
 
     //limpiar campos
     inputText.value = '';
@@ -191,6 +209,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  function actualizarTablaTiempos() {
+    const tiempoTotal = calcularTiempoTotal();
+    const totalHoras = pasarHorasMin(tiempoTotal);
+    const rangoTotal = calcularRango(tiempoTotal);
+    const tiempoRestante = pasarHorasMin(420 - tiempoTotal);
+    
+    const outRango = document.getElementById('total-rango');
+    const outHoras = document.getElementById('total-horas');
+    const outRestante = document.getElementById('total-restante');
+
+    outRango.textContent = rangoTotal;
+    outHoras.textContent = totalHoras;
+    outRestante.textContent = tiempoRestante;
+  }
+
   //guardar mapa en local storage
   function guardarIncidencias() {
     const objIncicendias = Object.fromEntries(incidencias);
@@ -204,12 +237,14 @@ document.addEventListener('DOMContentLoaded', function () {
       const objIncicendias = JSON.parse(jsonIncidencias);
       incidencias = new Map(Object.entries(objIncicendias));
       actualizarTablaIncidencias();
+      actualizarTablaTiempos();
     }
   }
 
   function eliminarIncidencia(nombre) {
     incidencias.delete(nombre);
     actualizarTablaIncidencias();
+    actualizarTablaTiempos();
     guardarIncidencias();
   }
 
@@ -247,9 +282,10 @@ document.addEventListener('DOMContentLoaded', function () {
       showDenyButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Sesión borrada con éxito", "", "success");
+        Swal.fire('Sesión borrada con éxito', '', 'success');
         incidencias.clear();
         actualizarTablaIncidencias();
+        actualizarTablaTiempos();
         localStorage.removeItem('incidencias');
       }
     });
