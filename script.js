@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const botonRegistrar = document.getElementById('boton-registrar');
   const botonBorrar = document.getElementById('boton-borrar');
   const inputText = document.getElementById('input-incidencia');
-  const tabla = document.querySelector('table tbody');
+  const tablaIncidencias = document.querySelector('table tbody');
   let incidencias = new Map();
 
   cargarIncidencias();
@@ -134,8 +134,8 @@ document.addEventListener('DOMContentLoaded', function () {
       incidencias.set(nombre, minTotales);
     }
 
-    //actualizar tabla
-    actualizarTabla();
+    //actualizar tabla incidencias
+    actualizarTablaIncidencias();
 
     //limpiar campos
     inputText.value = '';
@@ -146,10 +146,10 @@ document.addEventListener('DOMContentLoaded', function () {
     guardarIncidencias();
   }
 
-  function actualizarTabla() {
+  function actualizarTablaIncidencias() {
     //limpiar tabla para evitar duplicados
-    while(tabla.firstChild) {
-      tabla.removeChild(tabla.firstChild);
+    while(tablaIncidencias.firstChild) {
+      tablaIncidencias.removeChild(tablaIncidencias.firstChild);
     }
 
     incidencias.forEach((minTotales, nombre) => {
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
       iconoBorrar.className ='fa-solid fa-trash';
       botonBorrarIncidencia.appendChild(iconoBorrar);
 
-      const nuevaFila = tabla.insertRow();
+      const nuevaFila = tablaIncidencias.insertRow();
 
       nuevaFila.insertCell().textContent = nombre;
       nuevaFila.insertCell().textContent = `${horas}h ${minutos}m`;
@@ -181,13 +181,13 @@ document.addEventListener('DOMContentLoaded', function () {
       celdaEditar.appendChild(botonEditarIncidencia);
       celdaBorrar.appendChild(botonBorrarIncidencia);
 
-      iconoEditar.addEventListener('click', function() {
+      botonBorrarIncidencia.addEventListener('click', function() {
         //TODO implementar
       });
-
-      iconoBorrar.addEventListener('click', function() {
-        nuevaFila.remove();
-      })
+    
+      botonBorrarIncidencia.addEventListener('click', () => {
+        eliminarIncidencia(nombre);
+      });
     });
   }
 
@@ -203,8 +203,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if(jsonIncidencias) {
       const objIncicendias = JSON.parse(jsonIncidencias);
       incidencias = new Map(Object.entries(objIncicendias));
-      actualizarTabla();
+      actualizarTablaIncidencias();
     }
+  }
+
+  function eliminarIncidencia(nombre) {
+    incidencias.delete(nombre);
+    actualizarTablaIncidencias();
+    guardarIncidencias();
   }
 
   actualizarBotones();
@@ -223,15 +229,16 @@ document.addEventListener('DOMContentLoaded', function () {
     registrar();
   });
 
-  botonBorrar.addEventListener('click', function () {
-    const rows = tabla.querySelectorAll('tbody tr');
-    rows.forEach((row) => row.remove());
-  });
-
   inputText.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
       event.preventDefault(); //evita el comportamiento por defecto de enviar formularios en un <form>
       registrar();
     }
+  });
+
+  botonBorrar.addEventListener('click', function () {
+    incidencias.clear();
+    actualizarTablaIncidencias();
+    localStorage.removeItem('incidencias');
   });
 });
