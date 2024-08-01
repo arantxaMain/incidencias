@@ -136,6 +136,21 @@ input {
     tr:nth-child(odd) .boton-borrar-incidencia {
       background-color: #ffffff;
     }
+
+    .input {
+      background-color: inherit;
+      border: none;
+      color: inherit;
+      font-size: inherit;
+      text-align: center;
+    }
+
+    .input[readonly] {
+      outline: none;
+      cursor: default;
+    }
+
+
   }
 }
 

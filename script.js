@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const botonBorrar = document.getElementById('boton-borrar');
   const inputText = document.getElementById('input-incidencia');
   const tablaIncidencias = document.querySelector('#tabla-incidencias tbody');
-  const tablaTiempos = document.querySelector('#tabla-tiempos tbody');
   let incidencias = new Map();
 
   cargarIncidencias();
@@ -91,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
   //calcular tiempo total
   function calcularTiempoTotal() {
     let tiempoTotal = 0;
-    for(const [, minTotales] of incidencias) {
+    for (const [, minTotales] of incidencias) {
       tiempoTotal += minTotales;
     }
     return tiempoTotal;
@@ -189,7 +188,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const nuevaFila = tablaIncidencias.insertRow();
 
-      nuevaFila.insertCell().textContent = nombre;
+      let celdaNombre = nuevaFila.insertCell();
+      let inputNombre = document.createElement('input');      
+      inputNombre.type = 'text';
+      inputNombre.value = nombre;
+      inputNombre.className = 'input';
+      inputNombre.readOnly = true;
+      celdaNombre.appendChild(inputNombre);
+
       nuevaFila.insertCell().textContent = `${horas}h ${minutos}m`;
       nuevaFila.insertCell().textContent = rango;
 
@@ -199,8 +205,8 @@ document.addEventListener('DOMContentLoaded', function () {
       celdaEditar.appendChild(botonEditarIncidencia);
       celdaBorrar.appendChild(botonBorrarIncidencia);
 
-      botonBorrarIncidencia.addEventListener('click', function () {
-        //TODO implementar
+      botonEditarIncidencia.addEventListener('click', () => {
+        editarIncidencia(nombre);
       });
 
       botonBorrarIncidencia.addEventListener('click', () => {
@@ -209,12 +215,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  function editarIncidencia(nombre) {
+
+    actualizarTablaIncidencias();
+    actualizarTablaTiempos();
+    guardarIncidencias();
+  }
+
+  function eliminarIncidencia(nombre) {
+    incidencias.delete(nombre);
+    actualizarTablaIncidencias();
+    actualizarTablaTiempos();
+    guardarIncidencias();
+  }
+
   function actualizarTablaTiempos() {
     const tiempoTotal = calcularTiempoTotal();
     const totalHoras = pasarHorasMin(tiempoTotal);
     const rangoTotal = calcularRango(tiempoTotal);
     const tiempoRestante = pasarHorasMin(420 - tiempoTotal);
-    
+
     const outRango = document.getElementById('total-rango');
     const outHoras = document.getElementById('total-horas');
     const outRestante = document.getElementById('total-restante');
@@ -239,13 +259,6 @@ document.addEventListener('DOMContentLoaded', function () {
       actualizarTablaIncidencias();
       actualizarTablaTiempos();
     }
-  }
-
-  function eliminarIncidencia(nombre) {
-    incidencias.delete(nombre);
-    actualizarTablaIncidencias();
-    actualizarTablaTiempos();
-    guardarIncidencias();
   }
 
   actualizarBotones();
