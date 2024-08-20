@@ -20,17 +20,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const mostrarBotones = checkbox.checked ? "block" : "none";
     const tipoInput = checkbox.checked ? "time" : "text";
     const txtLabelInicio = checkbox.checked ? "Hora de inicio:" : "Horas:";
-    const txtLabelFin = checkbox.checked ? "Hora de fin:" : "Minutos:"
+    const txtLabelFin = checkbox.checked ? "Hora de fin:" : "Minutos:";
 
     for (let boton of botones) {
-        boton.style.display = mostrarBotones;
+      boton.style.display = mostrarBotones;
     }
 
     inputInicio.type = tipoInput;
     inputFin.type = tipoInput;
     lblInicio.textContent = txtLabelInicio;
     lblFin.textContent = txtLabelFin;
-}
+  }
 
   function setHoraActual(input) {
     const now = new Date();
@@ -44,59 +44,67 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function extraerMinutos() {
-    //si el inicio está vacío devuelve null
-    const tiempoInicio = inputInicio.value;
-    if (!tiempoInicio) {
-      Swal.fire({
-        icon: "error",
-        title: "La hora de inicio no puede estar vacía",
-        toast: true,
-        position: "center",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-      return null;
+    //si el input es time
+    if (checkbox.checked) {
+      //si el inicio está vacío devuelve null
+      let tiempoInicio = inputInicio.value;
+      if (!tiempoInicio) {
+        Swal.fire({
+          icon: "error",
+          title: "La hora de inicio no puede estar vacía",
+          toast: true,
+          position: "center",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        return null;
+      }
+
+      //si el fin está vacío se cambia por la hora actual
+      let tiempoFin = inputFin.value;
+      if (!tiempoFin) {
+        setHoraActual(inputFin);
+        tiempoFin = inputFin.value;
+      }
+
+      //calculamos la minTotales entre horas
+      const [horasIni, minIni] = tiempoInicio.split(":").map(Number);
+      const [horasFin, minFin] = tiempoFin.split(":").map(Number);
+
+      const totalIni = horasIni * 60 + minIni;
+      const totalFin = horasFin * 60 + minFin;
+      const minTotales = totalFin - totalIni;
+
+      if (minTotales < 0) {
+        Swal.fire({
+          icon: "error",
+          title: "La hora de inicio no puede superar a la de fin",
+          toast: true,
+          position: "center",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        return null;
+      }
+
+      if (minTotales == 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Por favor, ingresa un tiempo válido (más de 0 minutos)",
+          toast: true,
+          position: "center",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        return null;
+      }
+      return minTotales;
+    } else {
+
+      //si el input es text
+      let horas = inputInicio.value;
+      let minutos = inputFin.value;
     }
-
-    //si el fin está vacío se cambia por la hora actual
-    let tiempoFin = inputFin.value;
-    if (!tiempoFin) {
-      setHoraActual(inputFin);
-      tiempoFin = inputFin.value;
-    }
-
-    //calculamos la minTotales entre horas
-    const [horasIni, minIni] = tiempoInicio.split(":").map(Number);
-    const [horasFin, minFin] = tiempoFin.split(":").map(Number);
-
-    const totalIni = horasIni * 60 + minIni;
-    const totalFin = horasFin * 60 + minFin;
-    const minTotales = totalFin - totalIni;
-
-    if (minTotales < 0) {
-      Swal.fire({
-        icon: "error",
-        title: "La hora de inicio no puede superar a la de fin",
-        toast: true,
-        position: "center",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-      return null;
-    }
-
-    if (minTotales == 0) {
-      Swal.fire({
-        icon: "error",
-        title: "Por favor, ingresa un tiempo válido (más de 0 minutos)",
-        toast: true,
-        position: "center",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-      return null;
-    }
-    return minTotales;
   }
 
   //calcular tiempo total
@@ -218,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
       celdaBorrar.appendChild(botonBorrarIncidencia);
 
       botonEditarIncidencia.addEventListener("click", () => {
-        editarIncidencia(nombre);
+        editarIncidencia(nombre, inputNombre);
       });
 
       botonBorrarIncidencia.addEventListener("click", () => {
@@ -263,7 +271,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     outRestante.textContent = txtRestante;
-    console.log(tiempoTotal);
   }
 
   //guardar mapa en local storage
