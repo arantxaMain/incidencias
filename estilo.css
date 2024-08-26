@@ -144,7 +144,9 @@ input {
     }
 
     tr:nth-child(odd) .boton-editar-incidencia,
-    tr:nth-child(odd) .boton-borrar-incidencia {
+    tr:nth-child(odd) .boton-borrar-incidencia,
+    tr:nth-child(odd) .fa-check,
+    tr:nth-child(odd) .fa-xmark {
       background-color: #ffffff;
     }
 

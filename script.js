@@ -239,16 +239,22 @@ document.addEventListener('DOMContentLoaded', function () {
     inputNombreNuevo.value = inputNombre.value;
     inputNombreNuevo.className = 'input-editar-text'
 
+    const tiempo = celdas[1].textContent.trim().split(' ');
+
+    const horasTexto = tiempo[0];
+    const minutosTexto = tiempo[1];
+
+    const horas = parseInt(horasTexto.split('h')[0].trim()) || 0;
+    const minutos = parseInt(minutosTexto.split('m')[0].trim()) || 0;
+
     const inputHoras = document.createElement('input');
     inputHoras.type = 'number';
-    inputHoras.value =
-      parseInt(celdas[1].textContent.split('h')[0].trim()) || 0;
+    inputHoras.value = horas; 
     inputHoras.className = 'input-editar-number';
 
     const inputMinutos = document.createElement('input');
     inputMinutos.type = 'number';
-    inputMinutos.value =
-      parseInt(celdas[1].textContent.split('m')[0].trim()) || 0;
+    inputMinutos.value = minutos;
     inputMinutos.className = 'input-editar-number';
 
     //reemplazar contenido de celdas con inputs
@@ -277,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //eventos de los botones nuevos
     botonGuardarIncidencia.addEventListener('click', () => {
-      guardarCambios(nombre, inputNombre, inputHoras, inputMinutos);
+      guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
     });
 
     botonCancelarIncidencia.addEventListener('click', () => {
@@ -286,8 +292,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function guardarCambios(nombre, inputNombre, inputHoras, inputMinutos) {
-    const nuevoNombre = inputNombre.value.trim();
+  function guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos) {
+    const nuevoNombre = inputNombreNuevo.value.trim();
     if (!nuevoNombre) {
       mostrarError('El nombre de la incidencia no puede estar vacío');
       return;
