@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function actualizarBotones() {
     const mostrarBotones = checkbox.checked ? "block" : "none";
-    const tipoInput = checkbox.checked ? "time" : "text";
+    const tipoInput = checkbox.checked ? "time" : "number";
     const txtLabelInicio = checkbox.checked ? "Hora de inicio:" : "Horas:";
     const txtLabelFin = checkbox.checked ? "Hora de fin:" : "Minutos:";
 
@@ -44,67 +44,59 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function extraerMinutos() {
-    //si el input es time
+    let horas, minutos;
+  
     if (checkbox.checked) {
-      //si el inicio está vacío devuelve null
-      let tiempoInicio = inputInicio.value;
+      // Caso para tipo 'time'
+      const tiempoInicio = inputInicio.value;
+      const tiempoFin = inputFin.value || setHoraActual(inputFin);
+  
       if (!tiempoInicio) {
-        Swal.fire({
-          icon: "error",
-          title: "La hora de inicio no puede estar vacía",
-          toast: true,
-          position: "center",
-          timer: 1500,
-          showConfirmButton: false,
-        });
+        mostrarError("La hora de inicio no puede estar vacía");
         return null;
       }
-
-      //si el fin está vacío se cambia por la hora actual
-      let tiempoFin = inputFin.value;
-      if (!tiempoFin) {
-        setHoraActual(inputFin);
-        tiempoFin = inputFin.value;
-      }
-
-      //calculamos la minTotales entre horas
+  
       const [horasIni, minIni] = tiempoInicio.split(":").map(Number);
       const [horasFin, minFin] = tiempoFin.split(":").map(Number);
-
+  
       const totalIni = horasIni * 60 + minIni;
       const totalFin = horasFin * 60 + minFin;
       const minTotales = totalFin - totalIni;
-
-      if (minTotales < 0) {
-        Swal.fire({
-          icon: "error",
-          title: "La hora de inicio no puede superar a la de fin",
-          toast: true,
-          position: "center",
-          timer: 1500,
-          showConfirmButton: false,
-        });
+  
+      if (minTotales <= 0) {
+        mostrarError(
+          minTotales < 0
+            ? "La hora de inicio no puede superar a la de fin"
+            : "Por favor, ingresa un tiempo válido (más de 0 minutos)"
+        );
         return null;
       }
-
-      if (minTotales == 0) {
-        Swal.fire({
-          icon: "error",
-          title: "Por favor, ingresa un tiempo válido (más de 0 minutos)",
-          toast: true,
-          position: "center",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-        return null;
-      }
+  
       return minTotales;
+  
     } else {
-
-      //si el input es text
-      let horas = inputInicio.value;
-      let minutos = inputFin.value;
+      // Caso para tipo 'number'
+      horas = parseInt(inputInicio.value) || 0;
+      minutos = parseInt(inputFin.value) || 0;
+  
+      if (isNaN(horas) || isNaN(minutos) || horas < 0 || minutos < 0 || minutos > 59) {
+        mostrarError("Debes introducir un tiempo válido");
+        return null;
+      }
+  
+      return horas * 60 + minutos;
     }
+  }
+  
+  function mostrarError(mensaje) {
+    Swal.fire({
+      icon: "error",
+      title: mensaje,
+      toast: true,
+      position: "center",
+      timer: 1500,
+      showConfirmButton: false,
+    });
   }
 
   //calcular tiempo total
@@ -147,14 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function registrar() {
     const nombre = extraerTexto();
     if (!nombre) {
-      Swal.fire({
-        icon: "error",
-        title: "Introduce una incidencia",
-        toast: true,
-        position: "center",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      mostrarError("Introduce una incidencia");
       return;
     }
 
