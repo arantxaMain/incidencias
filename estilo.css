@@ -18,12 +18,23 @@ h1 {
   text-align: center;
 }
 
-.div-iconos {
+.div-iconos-izquierda {
+  float: left;
+
+  i {
+    cursor: pointer;
+    font-size: large;
+    margin: 0 0.5rem;
+  }
+}
+
+.div-iconos-derecha {
   float: right;
 
   i {
-    margin: 0 0.5rem;
+    cursor: pointer;
     font-size: large;
+    margin: 0 0.5rem;
   }
 }
 
