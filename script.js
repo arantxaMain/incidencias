@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const botonHoras = document.getElementById('boton-horas');
+  let tiempoTotalTrabajo = 0;
   const botonInicio = document.getElementById('boton-inicio');
   const botonFin = document.getElementById('boton-fin');
   const inputInicio = document.getElementById('input-inicio');
@@ -15,7 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
   let incidencias = new Map();
 
   cargarIncidencias();
+  cargarTiempoTotalTrabajo();
   actualizarTablaTiempos();
+  actualizarBotones();
 
   function actualizarBotones() {
     const mostrarBotones = checkbox.checked ? 'block' : 'none';
@@ -244,7 +247,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let tiempoTotal = calcularTiempoTotal();
     const totalHoras = pasarHorasMin(tiempoTotal);
     const rangoTotal = calcularRango(tiempoTotal);
-    let txtRestante = pasarHorasMin(420 - tiempoTotal);
+
+    const minTotales = tiempoTotalTrabajo || 420;
+    let txtRestante = pasarHorasMin(minTotales - tiempoTotal);
 
     const outRango = document.getElementById('total-rango');
     const outHoras = document.getElementById('total-horas');
@@ -253,12 +258,12 @@ document.addEventListener('DOMContentLoaded', function () {
     outRango.textContent = rangoTotal;
     outHoras.textContent = totalHoras;
 
-    if (tiempoTotal === 420) {
+    if (tiempoTotal === minTotales) {
       txtRestante = 'Ya has terminado ;)';
     }
 
-    if (tiempoTotal > 420) {
-      txtRestante = 'Te has pasado ' + pasarHorasMin(tiempoTotal - 420);
+    if (tiempoTotal > minTotales) {
+      txtRestante = 'Te has pasado ' + pasarHorasMin(tiempoTotal - minTotales);
     }
 
     outRestante.textContent = txtRestante;
@@ -281,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  async function alertaInputHoras() {
+  async function setHorasTrabajadas() {
     const { value: horas } = await Swal.fire({
       title: '¿Cuánto trabajas hoy?',
       input: 'number',
@@ -299,17 +304,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     if (horas > 0) {
+      tiempoTotalTrabajo = horas * 60;
+      localStorage.setItem('tiempoTotalTrabajo', tiempoTotalTrabajo);
       Swal.fire(`Horas trabajadas: ${horas}`);
     }
 
-    return horas;
+    return tiempoTotalTrabajo;
   }
 
-  actualizarBotones();
+  function cargarTiempoTotalTrabajo() {
+    const tiempoGuardado = localStorage.getItem('tiempoTotalTrabajo');
+    if(tiempoGuardado) {
+      tiempoTotalTrabajo = parseInt(tiempoGuardado, 10);
+    }
+  }
 
   //eventos
 
-  botonHoras.addEventListener('click', alertaInputHoras);
+  botonHoras.addEventListener('click', async () => {
+    await setHorasTrabajadas();
+    actualizarTablaTiempos(); 
+  });
 
   checkbox.addEventListener('change', actualizarBotones);
 
