@@ -224,12 +224,86 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       botonBorrarIncidencia.addEventListener('click', () => {
-        eliminarIncidencia(nombre, inputNombre);
+        eliminarIncidencia(nombre);
       });
     });
   }
 
   function editarIncidencia(nombre, inputNombre) {
+    //cambiar campos de la fila a inputs editables
+    const fila = inputNombre.parentElement.parentElement;
+    const celdas = fila.getElementsByTagName('td');
+
+    const inputNombreNuevo = document.createElement('input');
+    inputNombreNuevo.type = 'text';
+    inputNombreNuevo.value = inputNombre.value;
+    inputNombreNuevo.className = 'input-editar-text'
+
+    const inputHoras = document.createElement('input');
+    inputHoras.type = 'number';
+    inputHoras.value =
+      parseInt(celdas[1].textContent.split('h')[0].trim()) || 0;
+    inputHoras.className = 'input-editar-number';
+
+    const inputMinutos = document.createElement('input');
+    inputMinutos.type = 'number';
+    inputMinutos.value =
+      parseInt(celdas[1].textContent.split('m')[0].trim()) || 0;
+    inputMinutos.className = 'input-editar-number';
+
+    //reemplazar contenido de celdas con inputs
+    celdas[0].innerHTML = '';
+    celdas[0].appendChild(inputNombreNuevo);
+
+    celdas[1].innerHTML = '';
+    celdas[1].appendChild(inputHoras);
+    celdas[1].appendChild(document.createTextNode('h '));
+    celdas[1].appendChild(inputMinutos);
+    celdas[1].appendChild(document.createTextNode('m'));
+
+    celdas[2].textContent = '';
+
+    //reemplazar boton de editar con botón de guardar
+    const botonGuardarIncidencia = document.createElement('button');
+    botonGuardarIncidencia.className = 'fa-solid fa-check';
+    celdas[3].innerHTML = '';
+    celdas[3].appendChild(botonGuardarIncidencia);
+
+    //reemplazar boton de borrar con botón de cancelar
+    const botonCancelarIncidencia = document.createElement('button');
+    botonCancelarIncidencia.className = 'fa-solid fa-xmark';
+    celdas[4].innerHTML = '';
+    celdas[4].appendChild(botonCancelarIncidencia);
+
+    //eventos de los botones nuevos
+    botonGuardarIncidencia.addEventListener('click', () => {
+      guardarCambios(nombre, inputNombre, inputHoras, inputMinutos);
+    });
+
+    botonCancelarIncidencia.addEventListener('click', () => {
+      actualizarTablaIncidencias();
+      actualizarTablaTiempos();
+    });
+  }
+
+  function guardarCambios(nombre, inputNombre, inputHoras, inputMinutos) {
+    const nuevoNombre = inputNombre.value.trim();
+    if (!nuevoNombre) {
+      mostrarError('El nombre de la incidencia no puede estar vacío');
+      return;
+    }
+
+    const minutosTotales =
+      parseInt(inputHoras.value) * 60 + parseInt(inputMinutos.value);
+    if (isNaN(minutosTotales) || minutosTotales <= 0) {
+      mostrarError('Debe ingresar un tiempo válido');
+      return;
+    }
+
+    //actualizar mapa
+    incidencias.delete(nombre);
+    incidencias.set(nuevoNombre, minutosTotales);
+
     actualizarTablaIncidencias();
     actualizarTablaTiempos();
     guardarIncidencias();
@@ -314,7 +388,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function cargarTiempoTotalTrabajo() {
     const tiempoGuardado = localStorage.getItem('tiempoTotalTrabajo');
-    if(tiempoGuardado) {
+    if (tiempoGuardado) {
       tiempoTotalTrabajo = parseInt(tiempoGuardado, 10);
     }
   }
@@ -323,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   botonHoras.addEventListener('click', async () => {
     await setHorasTrabajadas();
-    actualizarTablaTiempos(); 
+    actualizarTablaTiempos();
   });
 
   checkbox.addEventListener('change', actualizarBotones);

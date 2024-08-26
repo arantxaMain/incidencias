@@ -163,6 +163,16 @@ input {
   }
 }
 
+.input-editar-text {
+  text-align: center;
+  width: 100px;
+}
+
+.input-editar-number {
+  text-align: center;
+  width: 50px;
+}
+
 #tabla-tiempos {
   width: 100%;
 
@@ -174,7 +184,9 @@ input {
 }
 
 .boton-editar-incidencia,
-.boton-borrar-incidencia {
+.boton-borrar-incidencia,
+.fa-check,
+.fa-xmark {
   background-color: #f7f7f7;
   border: none;
   border-radius: 1rem;
@@ -190,4 +202,12 @@ input {
 .fa-trash {
   color: #bc4749;
   cursor: pointer;
+}
+
+.fa-check {
+  color: #92ac48;
+}
+
+.fa-xmark {
+  color: #bc4749;
 }
