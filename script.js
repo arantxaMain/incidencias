@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
   cargarTiempoTotalTrabajo();
   actualizarTablaTiempos();
   actualizarBotones();
-  cargarFechaActual();
 
   function actualizarBotones() {
     const mostrarBotones = checkbox.checked ? 'block' : 'none';
