@@ -456,51 +456,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function cargarFechaActual() {
-    let mesSeleccionado;
-
-    switch (now.getMonth()) {
-      case 0:
-        mesSeleccionado = 'Enero';
-        break;
-      case 1:
-        mesSeleccionado = 'Febrero';
-        break;
-      case 2:
-        mesSeleccionado = 'Marzo';
-        break;
-      case 3:
-        mesSeleccionado = 'Abril';
-        break;
-      case 4:
-        mesSeleccionado = 'Mayo';
-        break;
-      case 5:
-        mesSeleccionado = 'Junio';
-        break;
-      case 6:
-        mesSeleccionado = 'Julio';
-        break;
-      case 7:
-        mesSeleccionado = 'Agosto';
-        break;
-      case 8:
-        mesSeleccionado = 'Septiembre';
-        break;
-      case 9:
-        mesSeleccionado = 'Octubre';
-        break;
-      case 10:
-        mesSeleccionado = 'Noviembre';
-        break;
-      case 11:
-        mesSeleccionado = 'Diciembre';
-        break;
-    }
-
-    textoMesSeleccionado.textContent = mesSeleccionado;
-  }
-
   //eventos
 
   botonHoras.addEventListener('click', async () => {
