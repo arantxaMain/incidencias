@@ -286,6 +286,27 @@ document.addEventListener('DOMContentLoaded', function () {
       guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
     });
 
+    inputNombreNuevo.addEventListener('keydown', function (event) {
+      if(event.key === 'Enter') {
+        event.preventDefault();
+        guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
+      }
+    })
+    
+    inputHoras.addEventListener('keydown', function (event) {
+      if(event.key === 'Enter') {
+        event.preventDefault();
+        guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
+      }
+    }) 
+
+    inputMinutos.addEventListener('keydown', function (event) {
+      if(event.key === 'Enter') {
+        event.preventDefault();
+        guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
+      }
+    }) 
+
     botonCancelarIncidencia.addEventListener('click', () => {
       actualizarTablaIncidencias();
       actualizarTablaTiempos();
