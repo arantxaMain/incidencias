@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const tablaIncidencias = document.querySelector('#tabla-incidencias tbody');
   let incidencias = new Map();
   let ordenIncidencias = [];
+  const botonPopup = document.getElementById('boton-popup');
+  const popupFecha = document.getElementById('popup-fecha');
+  const cerrarPopup = document.getElementById('cerrar-popup');
+  const botonGuardarFecha = document.getElementById('boton-guardar-fecha');
+  const inputFecha = document.getElementById('input-fecha');
 
   cargarIncidencias();
   cargarTiempoTotalTrabajo();
@@ -239,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputNombreNuevo = document.createElement('input');
     inputNombreNuevo.type = 'text';
     inputNombreNuevo.value = inputNombre.value;
-    inputNombreNuevo.className = 'input-editar-text'
+    inputNombreNuevo.className = 'input-editar-text';
 
     const tiempo = celdas[1].textContent.trim().split(' ');
 
@@ -251,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const inputHoras = document.createElement('input');
     inputHoras.type = 'number';
-    inputHoras.value = horas; 
+    inputHoras.value = horas;
     inputHoras.className = 'input-editar-number';
 
     const inputMinutos = document.createElement('input');
@@ -289,25 +294,25 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     inputNombreNuevo.addEventListener('keydown', function (event) {
-      if(event.key === 'Enter') {
+      if (event.key === 'Enter') {
         event.preventDefault();
         guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
       }
-    })
-    
+    });
+
     inputHoras.addEventListener('keydown', function (event) {
-      if(event.key === 'Enter') {
+      if (event.key === 'Enter') {
         event.preventDefault();
         guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
       }
-    }) 
+    });
 
     inputMinutos.addEventListener('keydown', function (event) {
-      if(event.key === 'Enter') {
+      if (event.key === 'Enter') {
         event.preventDefault();
         guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
       }
-    }) 
+    });
 
     botonCancelarIncidencia.addEventListener('click', () => {
       actualizarTablaIncidencias();
@@ -329,13 +334,13 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    if(nombre !== nuevoNombre) {
-      if(incidencias.has(nuevoNombre)) {
+    if (nombre !== nuevoNombre) {
+      if (incidencias.has(nuevoNombre)) {
         mostrarError('Ya existe una incidencia con ese nombre');
         return;
       }
       const index = ordenIncidencias.indexOf(nombre);
-      if(index !== -1) {
+      if (index !== -1) {
         ordenIncidencias[index] = nuevoNombre;
       }
 
@@ -352,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function eliminarIncidencia(nombre) {
     incidencias.delete(nombre);
-    ordenIncidencias = ordenIncidencias.filter(item => item !== nombre);
+    ordenIncidencias = ordenIncidencias.filter((item) => item !== nombre);
     actualizarTablaIncidencias();
     actualizarTablaTiempos();
     guardarIncidencias();
@@ -424,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function () {
       },
     });
 
-    if(horas) {
+    if (horas) {
       const [h, m] = horas.split(':').map(Number);
       tiempoTotalTrabajo = h * 60 + m;
       Swal.fire(`Horas trabajadas: ${horas}`);
@@ -487,4 +492,26 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  botonPopup.addEventListener('click', () => {
+    popupFecha.style.display = 'flex';
+  });
+
+  cerrarPopup.addEventListener('click', () => {
+    popupFecha.style.display = 'none';
+  });
+
+  botonGuardarFecha.addEventListener('click', () => {
+    const fechaSeleccionada = inputFecha.value;
+    if(fechaSeleccionada) {
+      return fechaSeleccionada;
+    }
+  });
+
+  window.addEventListener('click', (event) => {
+    if(event.target === popupFecha) {
+      popupFecha.style.display = 'none';
+    }
+  });
+
 });
