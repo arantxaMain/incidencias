@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const inputText = document.getElementById('input-incidencia');
   const tablaIncidencias = document.querySelector('#tabla-incidencias tbody');
   let incidencias = new Map();
+  let ordenIncidencias = [];
 
   cargarIncidencias();
   cargarTiempoTotalTrabajo();
@@ -162,9 +163,9 @@ document.addEventListener('DOMContentLoaded', function () {
       incidencias.set(nombre, incidencias.get(nombre) + minTotales);
     } else {
       incidencias.set(nombre, minTotales);
+      ordenIncidencias.push(nombre);
     }
 
-    //actualizar tabla incidencias
     actualizarTablaIncidencias();
     actualizarTablaTiempos();
 
@@ -183,7 +184,8 @@ document.addEventListener('DOMContentLoaded', function () {
       tablaIncidencias.removeChild(tablaIncidencias.firstChild);
     }
 
-    incidencias.forEach((minTotales, nombre) => {
+    ordenIncidencias.forEach((nombre) => {
+      const minTotales = incidencias.get(nombre);
       const horas = Math.floor(minTotales / 60);
       const minutos = minTotales % 60;
       const rango = calcularRango(minTotales);
@@ -327,8 +329,20 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
+    if(nombre !== nuevoNombre) {
+      if(incidencias.has(nuevoNombre)) {
+        mostrarError('Ya existe una incidencia con ese nombre');
+        return;
+      }
+      const index = ordenIncidencias.indexOf(nombre);
+      if(index !== -1) {
+        ordenIncidencias[index] = nuevoNombre;
+      }
+
+      incidencias.delete(nombre);
+    }
+
     //actualizar mapa
-    incidencias.delete(nombre);
     incidencias.set(nuevoNombre, minutosTotales);
 
     actualizarTablaIncidencias();
@@ -338,6 +352,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function eliminarIncidencia(nombre) {
     incidencias.delete(nombre);
+    ordenIncidencias = ordenIncidencias.filter(item => item !== nombre);
     actualizarTablaIncidencias();
     actualizarTablaTiempos();
     guardarIncidencias();
@@ -374,14 +389,19 @@ document.addEventListener('DOMContentLoaded', function () {
   function guardarIncidencias() {
     const objIncicendias = Object.fromEntries(incidencias);
     localStorage.setItem('incidencias', JSON.stringify(objIncicendias));
+    localStorage.setItem('ordenIncidencias', JSON.stringify(ordenIncidencias));
   }
 
   //cargar mapa desde local storage
   function cargarIncidencias() {
     const jsonIncidencias = localStorage.getItem('incidencias');
-    if (jsonIncidencias) {
+    const jsonOrdenIncidencias = localStorage.getItem('ordenIncidencias');
+
+    if (jsonIncidencias && jsonOrdenIncidencias) {
       const objIncicendias = JSON.parse(jsonIncidencias);
       incidencias = new Map(Object.entries(objIncicendias));
+      ordenIncidencias = JSON.parse(jsonOrdenIncidencias);
+
       actualizarTablaIncidencias();
       actualizarTablaTiempos();
     }
