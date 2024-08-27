@@ -410,26 +410,26 @@ document.addEventListener('DOMContentLoaded', function () {
   async function setHorasTrabajadas() {
     const { value: horas } = await Swal.fire({
       title: '¿Cuánto trabajas hoy?',
-      input: 'number',
+      input: 'time',
       inputLabel: 'Número de horas totales',
       showCancelButton: true,
       inputAttributes: {
         min: 1,
       },
       inputValidator: (value) => {
-        if (!value || value <= 0) {
+        if (!value || value === '00:00') {
           return 'Debes ingresar un número positivo';
         }
         return null;
       },
     });
 
-    if (horas > 0) {
-      tiempoTotalTrabajo = horas * 60;
-      localStorage.setItem('tiempoTotalTrabajo', tiempoTotalTrabajo);
+    if(horas) {
+      const [h, m] = horas.split(':').map(Number);
+      tiempoTotalTrabajo = h * 60 + m;
       Swal.fire(`Horas trabajadas: ${horas}`);
     }
-
+    console.log(tiempoTotalTrabajo);
     return tiempoTotalTrabajo;
   }
 
