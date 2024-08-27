@@ -20,8 +20,12 @@
     <div class="div-cabecera">
       <h1>Registro de incidencias</h1>
       <div class="div-iconos-izquierda">
-        <button type="button" id="boton-horas"><i class="fa-solid fa-clock"></i></button>
-        <button type="button" id="boton-popup"><i class="fa-solid fa-calendar"></i></button>
+        <button type="button" id="boton-horas">
+          <i class="fa-solid fa-clock"></i>
+        </button>
+        <button type="button" id="boton-popup">
+          <i class="fa-solid fa-calendar"></i>
+        </button>
       </div>
       <div class="div-iconos-derecha">
         <button type="button"><i class="fa-solid fa-upload"></i></button>
@@ -33,9 +37,22 @@
       <div class="popup-content">
         <span id="cerrar-popup">&times;</span>
         <h2>Selecciona una fecha</h2>
-        <input type="date" id="input-fecha">
+        <input type="date" id="input-fecha" />
         <button id="boton-guardar-fecha">Guardar fecha</button>
       </div>
+    </div>
+
+    <div id="calendario">
+      <div class="mes">
+        <ul>
+          <li class="flecha-anterior">&#10094;</li>
+          <li class="flecha-siguiente">&#10095;</li>
+          <li id="texto-mes-seleccionado"></li>
+          <li id="texto-anio-seleccionado"></li>
+        </ul>
+      </div>
+     
+
     </div>
 
     <div class="div-principal">
@@ -105,7 +122,7 @@
           </tbody>
         </table>
       </div>
-    </div>   
+    </div>
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
   </body>

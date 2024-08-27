@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+  //página principal
+  const now = new Date();
   const botonHoras = document.getElementById('boton-horas');
   let tiempoTotalTrabajo = 0;
   const botonInicio = document.getElementById('boton-inicio');
@@ -15,16 +17,27 @@ document.addEventListener('DOMContentLoaded', function () {
   const tablaIncidencias = document.querySelector('#tabla-incidencias tbody');
   let incidencias = new Map();
   let ordenIncidencias = [];
+
+  //popup fecha
   const botonPopup = document.getElementById('boton-popup');
   const popupFecha = document.getElementById('popup-fecha');
   const cerrarPopup = document.getElementById('cerrar-popup');
   const botonGuardarFecha = document.getElementById('boton-guardar-fecha');
   const inputFecha = document.getElementById('input-fecha');
 
+  //calendario
+  const textoMesSeleccionado = document.getElementById(
+    'texto-mes-seleccionado'
+  );
+  const textoAnioSeleccionado = document.getElementById(
+    'texto-anio-seleccionado'
+  );
+
   cargarIncidencias();
   cargarTiempoTotalTrabajo();
   actualizarTablaTiempos();
   actualizarBotones();
+  cargarFechaActual();
 
   function actualizarBotones() {
     const mostrarBotones = checkbox.checked ? 'block' : 'none';
@@ -43,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function setHoraActual(input) {
-    const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     input.value = `${hours}:${minutes}`;
@@ -434,7 +446,6 @@ document.addEventListener('DOMContentLoaded', function () {
       tiempoTotalTrabajo = h * 60 + m;
       Swal.fire(`Horas trabajadas: ${horas}`);
     }
-    console.log(tiempoTotalTrabajo);
     return tiempoTotalTrabajo;
   }
 
@@ -443,6 +454,51 @@ document.addEventListener('DOMContentLoaded', function () {
     if (tiempoGuardado) {
       tiempoTotalTrabajo = parseInt(tiempoGuardado, 10);
     }
+  }
+
+  function cargarFechaActual() {
+    let mesSeleccionado;
+
+    switch (now.getMonth()) {
+      case 0:
+        mesSeleccionado = 'Enero';
+        break;
+      case 1:
+        mesSeleccionado = 'Febrero';
+        break;
+      case 2:
+        mesSeleccionado = 'Marzo';
+        break;
+      case 3:
+        mesSeleccionado = 'Abril';
+        break;
+      case 4:
+        mesSeleccionado = 'Mayo';
+        break;
+      case 5:
+        mesSeleccionado = 'Junio';
+        break;
+      case 6:
+        mesSeleccionado = 'Julio';
+        break;
+      case 7:
+        mesSeleccionado = 'Agosto';
+        break;
+      case 8:
+        mesSeleccionado = 'Septiembre';
+        break;
+      case 9:
+        mesSeleccionado = 'Octubre';
+        break;
+      case 10:
+        mesSeleccionado = 'Noviembre';
+        break;
+      case 11:
+        mesSeleccionado = 'Diciembre';
+        break;
+    }
+
+    textoMesSeleccionado.textContent = mesSeleccionado;
   }
 
   //eventos
@@ -503,15 +559,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   botonGuardarFecha.addEventListener('click', () => {
     const fechaSeleccionada = inputFecha.value;
-    if(fechaSeleccionada) {
+    if (fechaSeleccionada) {
       return fechaSeleccionada;
     }
   });
 
   window.addEventListener('click', (event) => {
-    if(event.target === popupFecha) {
+    if (event.target === popupFecha) {
       popupFecha.style.display = 'none';
     }
   });
-
 });
