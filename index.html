@@ -1,30 +1,100 @@
 ﻿<!DOCTYPE html>
 
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta charset="utf-8" />
-    <title>Registro de incidencias</title>
-    <link rel="stylesheet" href="estilo.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-      rel="stylesheet"
-    />
-  </head>
 
-  <body>
-    <div class="div-cabecera">
-      <h1>Registro de incidencias</h1>
-      <div class="div-iconos">
-        <i class="fa-solid fa-upload"></i>
-        <i class="fa-solid fa-download"></i>
+<head>
+  <meta charset="utf-8" />
+  <title>Registro de incidencias</title>
+  <link rel="stylesheet" href="estilo.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+</head>
+
+<>
+  <div class="div-cabecera">
+    <h1>Registro de incidencias</h1>
+    <div class="div-iconos-izquierda">
+      <button type="button" id="boton-horas">
+        <i class="fa-solid fa-clock"></i>
+      </button>
+      <button type="button" id="boton-popup">
+        <i class="fa-solid fa-calendar"></i>
+      </button>
+    </div>
+    <div class="div-iconos-derecha">
+      <button type="button"><i class="fa-solid fa-upload"></i></button>
+      <button type="button"><i class="fa-solid fa-download"></i></button>
+    </div>
+  </div>
+
+  <div id="popup-fecha" class="popup">
+    <div class="popup-content">
+      <span id="cerrar-popup">&times;</span>
+      <h2>Selecciona una fecha</h2>
+      <input type="date" id="input-fecha" />
+      <button id="boton-guardar-fecha">Guardar fecha</button>
+    </div>
+  </div>
+
+  <div class="modal-calendario">
+    <div class="cal-container">
+      <header>
+        <p class="fecha-actual">Agosto 2024</p>
+        <div class="iconos-flechas">
+          <span class="anterior">&#10094;</span>
+          <span class="siguiente">&#10095;</span>
+        </div>
+      </header>
+      <div class="calendar">
+        <ul class="weeks">
+          <li>L</li>
+          <li>M</li>
+          <li>X</li>
+          <li>J</li>
+          <li>V</li>
+          <li>S</li>
+          <li>D</li>
+        </ul>
+        <ul class="days">
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+          <li>4</li>
+          <li>5</li>
+          <li>6</li>
+          <li>7</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="div-principal">
+    <div>
+      <input type="checkbox" id="chkHora" checked="true" />
+      <label for="hora">Usar Hora de Inicio / Hora de fin</label>
+    </div>
+    <div>
+      <label for="incidencia" class="label-txt">Incidencia:</label>
+      <input type="text" id="input-incidencia" class="input-box" />
+    </div>
+
+    <div class="div-doble">
+      <div class="col">
+        <label for="inicio" id="lbl-inicio" class="label-txt"></label>
+        <input type="text" id="input-inicio" class="input-box" />
+        <button type="button" class="boton-hora" id="boton-inicio">
+          Ahora
+        </button>
+      </div>
+      <div class="col">
+        <label for="fin" id="lbl-fin" class="label-txt"></label>
+        <input type="text" id="input-fin" class="input-box" />
+        <button type="button" class="boton-hora" id="boton-fin">Ahora</button>
       </div>
     </div>
 
+<<<<<<< HEAD
     <div class="div-principal">
       <div>
         <input type="checkbox" id="chkHora" checked="true" />
@@ -93,8 +163,53 @@
           </tbody>
         </table>
       </div>
+=======
+    <div class="div-doble">
+      <button type="button" class="boton-registro" id="boton-registrar">
+        Registrar
+      </button>
+      <button type="button" class="boton-registro" id="boton-borrar">
+        Borrar todas
+      </button>
+>>>>>>> 2543bdc672de16e716263c9220ea0cb298836c17
     </div>
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+    <div>
+      <table id="tabla-incidencias">
+        <thead>
+          <tr>
+            <th>Incidencia</th>
+            <th>Horas y minutos</th>
+            <th>Rango</th>
+            <th>Editar</th>
+            <th>Borrar</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div>
+      <table id="tabla-tiempos">
+        <thead>
+          <tr>
+            <th>Total rango</th>
+            <th>Total horas y minutos</th>
+            <th>Tiempo restante</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="total-rango"></td>
+            <td id="total-horas"></td>
+            <td id="total-restante"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
   </body>
+
 </html>

@@ -1,3 +1,4 @@
+/* página principal */
 body {
   color: #574240;
   font-family: Arial, Helvetica, sans-serif;
@@ -18,13 +19,24 @@ h1 {
   text-align: center;
 }
 
-.div-iconos {
-  float: right;
+button {
+  background-color: #ffffff00;
+  border-style: none;
+  color: inherit;
+  cursor: pointer;
 
   i {
-    margin: 0 0.5rem;
     font-size: large;
+    margin: 0 0.5rem;
   }
+}
+
+.div-iconos-izquierda {
+  float: left;
+}
+
+.div-iconos-derecha {
+  float: right;
 }
 
 .div-principal {
@@ -133,7 +145,9 @@ input {
     }
 
     tr:nth-child(odd) .boton-editar-incidencia,
-    tr:nth-child(odd) .boton-borrar-incidencia {
+    tr:nth-child(odd) .boton-borrar-incidencia,
+    tr:nth-child(odd) .fa-check,
+    tr:nth-child(odd) .fa-xmark {
       background-color: #ffffff;
     }
 
@@ -152,6 +166,16 @@ input {
   }
 }
 
+.input-editar-text {
+  text-align: center;
+  width: 100px;
+}
+
+.input-editar-number {
+  text-align: center;
+  width: 50px;
+}
+
 #tabla-tiempos {
   width: 100%;
 
@@ -163,7 +187,9 @@ input {
 }
 
 .boton-editar-incidencia,
-.boton-borrar-incidencia {
+.boton-borrar-incidencia,
+.fa-check,
+.fa-xmark {
   background-color: #f7f7f7;
   border: none;
   border-radius: 1rem;
@@ -179,4 +205,77 @@ input {
 .fa-trash {
   color: #bc4749;
   cursor: pointer;
+}
+
+.fa-check {
+  color: #92ac48;
+}
+
+.fa-xmark {
+  color: #bc4749;
+}
+
+/* popup */
+.popup {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+
+  .popup-content {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    max-width: 90%;
+    padding: 20px;
+    text-align: center;
+    width: 400px;
+  }
+}
+
+#cerrar-popup {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#cerrar-popup:hover,
+#cerrar-popup:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* calendario */
+.modal-calendario {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #bc4749;
+}
+
+.cal-container {
+  width: 450px;
+  background: #fff;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.calendar ul {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
 }
