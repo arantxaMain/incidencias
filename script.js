@@ -34,6 +34,34 @@ if (tiempoGuardado) {
   tiempoTotalTrabajo = parseInt(tiempoGuardado, 10);
 }
 
+//popup de fecha para abrir calendario
+const botonPopup = document.getElementById('boton-popup');
+const popupFecha = document.getElementById('popup-fecha');
+const cerrarPopup = document.getElementById('cerrar-popup');
+const botonGuardarFecha = document.getElementById('boton-guardar-fecha');
+const inputFecha = document.getElementById('input-fecha');
+
+botonPopup.addEventListener('click', () => {
+  popupFecha.style.display = 'flex';
+});
+
+cerrarPopup.addEventListener('click', () => {
+  popupFecha.style.display = 'none';
+});
+
+botonGuardarFecha.addEventListener('click', () => {
+  const fechaSeleccionada = inputFecha.value;
+  if (fechaSeleccionada) {
+    return fechaSeleccionada;
+  }
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target === popupFecha) {
+    popupFecha.style.display = 'none';
+  }
+});
+
 //mostrar u ocultar botones de ahora
 const checkbox = document.getElementById('chkHora');
 const botones = document.getElementsByClassName('boton-hora');
