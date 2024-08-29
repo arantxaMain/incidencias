@@ -1,10 +1,20 @@
+document.addEventListener('DOMContentLoaded', (event) => {
+  actualizarEstado();
+  actualizarTablaTiempos();
+});
+
 //cargar tiempo de trabajo
 let tiempoTotalTrabajo;
 console.log(localStorage.getItem('tiempoTotalTrabajo'));
 const tiempoGuardado = localStorage.getItem('tiempoTotalTrabajo');
 console.log('al cargar: ' + tiempoGuardado);
 const textoHorasTrabajadas = document.getElementById('texto-horas-trabajadas');
-textoHorasTrabajadas.textContent = `- Hoy trabajas ${pasarHorasMin(tiempoGuardado)}, ¡ánimo! :)`;
+const emoji = String.fromCodePoint(0x1F60A);
+const emojiElement = document.createElement('span');
+emojiElement.className = 'emoji';
+emojiElement.textContent = emoji;
+textoHorasTrabajadas.textContent = `- Hoy trabajas ${pasarHorasMin(tiempoGuardado)}, ¡ánimo! ` ;
+textoHorasTrabajadas.appendChild(emojiElement);
 if (tiempoGuardado) {
   tiempoTotalTrabajo = parseInt(tiempoGuardado, 10);
 }
@@ -56,8 +66,10 @@ cerrarPopup.addEventListener('click', () => {
 botonGuardarFecha.addEventListener('click', () => {
   const fechaSeleccionada = inputFecha.value;
   if (fechaSeleccionada) {
+    popupFecha.style.display = 'none';
     return fechaSeleccionada;
   }
+  
 });
 
 window.addEventListener('click', (event) => {
@@ -73,10 +85,6 @@ const inputInicio = document.getElementById('input-inicio');
 const inputFin = document.getElementById('input-fin');
 const lblInicio = document.getElementById('lbl-inicio');
 const lblFin = document.getElementById('lbl-fin');
-
-document.addEventListener('DOMContentLoaded', (event) => {
-  actualizarEstado();
-});
 
 checkbox.addEventListener('change', actualizarEstado);
 
@@ -123,6 +131,7 @@ botonBorrar.addEventListener('click', function () {
     if (result.isConfirmed) {
       Swal.fire('Sesión borrada con éxito', '', 'success');
       incidencias.clear();
+      ordenIncidencias = [];
       actualizarTablaIncidencias();
       actualizarTablaTiempos();
       localStorage.removeItem('incidencias');
@@ -216,7 +225,12 @@ function extraerMinutos() {
       return null;
     }
 
-    return horas * 60 + minutos;
+    const minTotales = horas * 60 + minutos;
+    if(minTotales === 0) {
+      mostrarError('Debes introducir un tiempo válido')
+      return null;
+    }
+    return minTotales;
   }
 }
 
@@ -279,8 +293,8 @@ async function setHorasTrabajadas() {
     const [h, m] = horas.split(':').map(Number);
     tiempoTotalTrabajo = h * 60 + m;
     localStorage.setItem('tiempoTotalTrabajo', JSON.stringify(tiempoTotalTrabajo));
-    textoHorasTrabajadas.textContent = `- Hoy trabajas ${pasarHorasMin(tiempoTotalTrabajo)}, ¡ánimo! :)`;
-    Swal.fire(`Horas trabajadas: ${horas}`);
+    textoHorasTrabajadas.textContent = `- Hoy trabajas ${pasarHorasMin(tiempoTotalTrabajo)}, ¡ánimo! `;
+    textoHorasTrabajadas.appendChild(emojiElement);
   }
   return tiempoTotalTrabajo;
 }
@@ -369,7 +383,22 @@ function actualizarTablaIncidencias() {
     celdaBorrar.appendChild(botonBorrarIncidencia);
 
     botonEditarIncidencia.addEventListener('click', () => {
-      const fila = inputNombre.parentElement.parentElement;
+      editarIncidencia(nombre, inputNombre);
+    });
+
+    botonBorrarIncidencia.addEventListener('click', () => {
+      incidencias.delete(nombre);
+      ordenIncidencias = ordenIncidencias.filter((item) => item !== nombre);
+      actualizarTablaIncidencias();
+      actualizarTablaTiempos();
+      guardarIncidencias();
+    });
+  });
+}
+
+//editar incidencia
+function editarIncidencia(nombre, inputNombre) {
+  const fila = inputNombre.parentElement.parentElement;
       const celdas = fila.getElementsByTagName('td');
 
       const inputNombreNuevo = document.createElement('input');
@@ -449,16 +478,6 @@ function actualizarTablaIncidencias() {
         actualizarTablaIncidencias();
         actualizarTablaTiempos();
       });
-    });
-
-    botonBorrarIncidencia.addEventListener('click', () => {
-      incidencias.delete(nombre);
-      ordenIncidencias = ordenIncidencias.filter((item) => item !== nombre);
-      actualizarTablaIncidencias();
-      actualizarTablaTiempos();
-      guardarIncidencias();
-    });
-  });
 }
 
 //guardar cambios al editar incidencia
