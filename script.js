@@ -70,21 +70,11 @@ const inputFin = document.getElementById('input-fin');
 const lblInicio = document.getElementById('lbl-inicio');
 const lblFin = document.getElementById('lbl-fin');
 
-checkbox.addEventListener('change', () => {
-  const mostrarBotones = checkbox.checked ? 'block' : 'none';
-  const tipoInput = checkbox.checked ? 'time' : 'number';
-  const txtLabelInicio = checkbox.checked ? 'Hora de inicio:' : 'Horas:';
-  const txtLabelFin = checkbox.checked ? 'Hora de fin:' : 'Minutos:';
-
-  for (let boton of botones) {
-    boton.style.display = mostrarBotones;
-  }
-
-  inputInicio.type = tipoInput;
-  inputFin.type = tipoInput;
-  lblInicio.textContent = txtLabelInicio;
-  lblFin.textContent = txtLabelFin;
+document.addEventListener('DOMContentLoaded', (event) => {
+  actualizarEstado();
 });
+
+checkbox.addEventListener('change', actualizarEstado);
 
 //hora actual en inputs
 const botonInicio = document.getElementById('boton-inicio');
@@ -137,6 +127,23 @@ botonBorrar.addEventListener('click', function () {
 });
 
 //--funciones--//
+
+//actualizar estado de los botones y los labels
+function actualizarEstado() {
+  const mostrarBotones = checkbox.checked ? 'block' : 'none';
+  const tipoInput = checkbox.checked ? 'time' : 'number';
+  const txtLabelInicio = checkbox.checked ? 'Hora de inicio:' : 'Horas:';
+  const txtLabelFin = checkbox.checked ? 'Hora de fin:' : 'Minutos:';
+
+  for (let boton of botones) {
+    boton.style.display = mostrarBotones;
+  }
+
+  inputInicio.type = tipoInput;
+  inputFin.type = tipoInput;
+  lblInicio.textContent = txtLabelInicio;
+  lblFin.textContent = txtLabelFin;
+}
 
 //mostrar error
 function mostrarError(mensaje) {

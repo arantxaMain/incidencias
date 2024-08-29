@@ -75,6 +75,7 @@ input {
   border: none;
   color: rgb(0, 0, 0);
   cursor: pointer;
+  display: none;
   height: 2rem;
   text-align: center;
   text-decoration: none;
