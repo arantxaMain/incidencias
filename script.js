@@ -3,6 +3,7 @@ let incidencias = new Map();
 let ordenIncidencias = [];
 const jsonIncidencias = localStorage.getItem('incidencias');
 const jsonOrdenIncidencias = localStorage.getItem('ordenIncidencias');
+let tiempoTotalTrabajo = 0;
 
 if (jsonIncidencias && jsonOrdenIncidencias) {
   const objIncicendias = JSON.parse(jsonIncidencias);
@@ -23,7 +24,6 @@ if (tiempoGuardado) {
 
 //popup de horas trabajadas
 const botonHoras = document.getElementById('boton-horas');
-let tiempoTotalTrabajo = 0;
 
 botonHoras.addEventListener('click', async () => {
   await setHorasTrabajadas();
@@ -86,6 +86,8 @@ inputText.addEventListener('keydown', function (event) {
 });
 
 //borrar todas las incidencias
+const botonBorrar = document.getElementById('boton-borrar');
+
 botonBorrar.addEventListener('click', function () {
   Swal.fire({
     icon: 'warning',
