@@ -1,9 +1,19 @@
+//cargar tiempo de trabajo
+let tiempoTotalTrabajo;
+console.log(localStorage.getItem('tiempoTotalTrabajo'));
+const tiempoGuardado = localStorage.getItem('tiempoTotalTrabajo');
+console.log('al cargar: ' + tiempoGuardado);
+const textoHorasTrabajadas = document.getElementById('texto-horas-trabajadas');
+textoHorasTrabajadas.textContent = `- Hoy trabajas ${pasarHorasMin(tiempoGuardado)}, ¡ánimo! :)`;
+if (tiempoGuardado) {
+  tiempoTotalTrabajo = parseInt(tiempoGuardado, 10);
+}
+
 //cargar mapa desde local storage
 let incidencias = new Map();
 let ordenIncidencias = [];
 const jsonIncidencias = localStorage.getItem('incidencias');
 const jsonOrdenIncidencias = localStorage.getItem('ordenIncidencias');
-let tiempoTotalTrabajo = 0;
 
 if (jsonIncidencias && jsonOrdenIncidencias) {
   const objIncicendias = JSON.parse(jsonIncidencias);
@@ -12,12 +22,6 @@ if (jsonIncidencias && jsonOrdenIncidencias) {
 
   actualizarTablaIncidencias();
   actualizarTablaTiempos();
-}
-
-//cargar tiempo de trabajo
-const tiempoGuardado = localStorage.getItem('tiempoTotalTrabajo');
-if (tiempoGuardado) {
-  tiempoTotalTrabajo = parseInt(tiempoGuardado, 10);
 }
 
 //--eventos--//
@@ -274,6 +278,8 @@ async function setHorasTrabajadas() {
   if (horas) {
     const [h, m] = horas.split(':').map(Number);
     tiempoTotalTrabajo = h * 60 + m;
+    localStorage.setItem('tiempoTotalTrabajo', JSON.stringify(tiempoTotalTrabajo));
+    textoHorasTrabajadas.textContent = `- Hoy trabajas ${pasarHorasMin(tiempoTotalTrabajo)}, ¡ánimo! :)`;
     Swal.fire(`Horas trabajadas: ${horas}`);
   }
   return tiempoTotalTrabajo;
@@ -496,6 +502,7 @@ function actualizarTablaTiempos() {
   const totalHoras = pasarHorasMin(tiempoTotal);
   const rangoTotal = calcularRango(tiempoTotal);
 
+  console.log('actualizando tabla tiempos: ' + tiempoTotalTrabajo);
   const minTotales = tiempoTotalTrabajo || 420;
   let txtRestante = pasarHorasMin(minTotales - tiempoTotal);
 
