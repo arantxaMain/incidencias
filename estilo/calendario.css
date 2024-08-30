@@ -152,7 +152,7 @@
   }
 
   li.active::before {
-    background: #9b59b6;
+    background: #bfa5a3;
   }
 
   li:not(.active):hover::before {

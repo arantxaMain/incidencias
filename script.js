@@ -591,6 +591,7 @@ const etiquetaDias = document.querySelector('.dias');
 const iconosFlechas = document.querySelectorAll('.iconos span');
 
 const renderCalendar = (fecha) => {
+  const dia = fecha.getDate();
   const mes = fecha.getMonth();
   const anio = fecha.getFullYear();
  
@@ -605,7 +606,8 @@ const renderCalendar = (fecha) => {
   }
 
   for (let i = 1; i <= ultimaFechaMes; i++) {
-    etiquetaLi += `<li>${i}</li>`;
+    const diaSeleccionado = i === dia ? 'active' : '';
+    etiquetaLi += `<li class="${diaSeleccionado}">${i}</li>`;
   }
 
   for (let i = ultimoDiaMes; i < 6; i++) {
