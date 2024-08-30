@@ -5,15 +5,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 //cargar tiempo de trabajo
 let tiempoTotalTrabajo;
-console.log(localStorage.getItem('tiempoTotalTrabajo'));
 const tiempoGuardado = localStorage.getItem('tiempoTotalTrabajo');
-console.log('al cargar: ' + tiempoGuardado);
 const textoHorasTrabajadas = document.getElementById('texto-horas-trabajadas');
-const emoji = String.fromCodePoint(0x1F60A);
+const emoji = String.fromCodePoint(0x1f60a);
 const emojiElement = document.createElement('span');
 emojiElement.className = 'emoji';
 emojiElement.textContent = emoji;
-textoHorasTrabajadas.textContent = `- Hoy trabajas ${pasarHorasMin(tiempoGuardado)}, ¡ánimo! ` ;
+textoHorasTrabajadas.textContent = `hoy trabajas ${pasarHorasMin(
+  tiempoGuardado
+)}, ¡ánimo! `;
 textoHorasTrabajadas.appendChild(emojiElement);
 if (tiempoGuardado) {
   tiempoTotalTrabajo = parseInt(tiempoGuardado, 10);
@@ -37,6 +37,8 @@ if (jsonIncidencias && jsonOrdenIncidencias) {
 //--eventos--//
 
 //popup de horas trabajadas
+const now = new Date();
+
 const botonHoras = document.getElementById('boton-horas');
 
 botonHoras.addEventListener('click', async () => {
@@ -47,36 +49,6 @@ botonHoras.addEventListener('click', async () => {
 if (tiempoGuardado) {
   tiempoTotalTrabajo = parseInt(tiempoGuardado, 10);
 }
-
-//popup de fecha para abrir calendario
-const botonPopup = document.getElementById('boton-popup');
-const popupFecha = document.getElementById('popup-fecha');
-const cerrarPopup = document.getElementById('cerrar-popup');
-const botonGuardarFecha = document.getElementById('boton-guardar-fecha');
-const inputFecha = document.getElementById('input-fecha');
-
-botonPopup.addEventListener('click', () => {
-  popupFecha.style.display = 'flex';
-});
-
-cerrarPopup.addEventListener('click', () => {
-  popupFecha.style.display = 'none';
-});
-
-botonGuardarFecha.addEventListener('click', () => {
-  const fechaSeleccionada = inputFecha.value;
-  if (fechaSeleccionada) {
-    popupFecha.style.display = 'none';
-    return fechaSeleccionada;
-  }
-  
-});
-
-window.addEventListener('click', (event) => {
-  if (event.target === popupFecha) {
-    popupFecha.style.display = 'none';
-  }
-});
 
 //mostrar u ocultar botones de ahora
 const checkbox = document.getElementById('chkHora');
@@ -172,7 +144,6 @@ function mostrarError(mensaje) {
 
 //hora actual
 function setHoraActual(input) {
-  const now = new Date();
   const hours = String(now.getHours()).padStart(2, '0');
   const minutes = String(now.getMinutes()).padStart(2, '0');
   input.value = `${hours}:${minutes}`;
@@ -226,8 +197,8 @@ function extraerMinutos() {
     }
 
     const minTotales = horas * 60 + minutos;
-    if(minTotales === 0) {
-      mostrarError('Debes introducir un tiempo válido')
+    if (minTotales === 0) {
+      mostrarError('Debes introducir un tiempo válido');
       return null;
     }
     return minTotales;
@@ -292,8 +263,13 @@ async function setHorasTrabajadas() {
   if (horas) {
     const [h, m] = horas.split(':').map(Number);
     tiempoTotalTrabajo = h * 60 + m;
-    localStorage.setItem('tiempoTotalTrabajo', JSON.stringify(tiempoTotalTrabajo));
-    textoHorasTrabajadas.textContent = `- Hoy trabajas ${pasarHorasMin(tiempoTotalTrabajo)}, ¡ánimo! `;
+    localStorage.setItem(
+      'tiempoTotalTrabajo',
+      JSON.stringify(tiempoTotalTrabajo)
+    );
+    textoHorasTrabajadas.textContent = `hoy trabajas ${pasarHorasMin(
+      tiempoTotalTrabajo
+    )}, ¡ánimo! `;
     textoHorasTrabajadas.appendChild(emojiElement);
   }
   return tiempoTotalTrabajo;
@@ -399,85 +375,85 @@ function actualizarTablaIncidencias() {
 //editar incidencia
 function editarIncidencia(nombre, inputNombre) {
   const fila = inputNombre.parentElement.parentElement;
-      const celdas = fila.getElementsByTagName('td');
+  const celdas = fila.getElementsByTagName('td');
 
-      const inputNombreNuevo = document.createElement('input');
-      inputNombreNuevo.type = 'text';
-      inputNombreNuevo.value = inputNombre.value;
-      inputNombreNuevo.className = 'input-editar-text';
+  const inputNombreNuevo = document.createElement('input');
+  inputNombreNuevo.type = 'text';
+  inputNombreNuevo.value = inputNombre.value;
+  inputNombreNuevo.className = 'input-editar-text';
 
-      const tiempo = celdas[1].textContent.trim().split(' ');
+  const tiempo = celdas[1].textContent.trim().split(' ');
 
-      const horasTexto = tiempo[0];
-      const minutosTexto = tiempo[1];
+  const horasTexto = tiempo[0];
+  const minutosTexto = tiempo[1];
 
-      const horas = parseInt(horasTexto.split('h')[0].trim()) || 0;
-      const minutos = parseInt(minutosTexto.split('m')[0].trim()) || 0;
+  const horas = parseInt(horasTexto.split('h')[0].trim()) || 0;
+  const minutos = parseInt(minutosTexto.split('m')[0].trim()) || 0;
 
-      const inputHoras = document.createElement('input');
-      inputHoras.type = 'number';
-      inputHoras.value = horas;
-      inputHoras.className = 'input-editar-number';
+  const inputHoras = document.createElement('input');
+  inputHoras.type = 'number';
+  inputHoras.value = horas;
+  inputHoras.className = 'input-editar-number';
 
-      const inputMinutos = document.createElement('input');
-      inputMinutos.type = 'number';
-      inputMinutos.value = minutos;
-      inputMinutos.className = 'input-editar-number';
+  const inputMinutos = document.createElement('input');
+  inputMinutos.type = 'number';
+  inputMinutos.value = minutos;
+  inputMinutos.className = 'input-editar-number';
 
-      //reemplazar contenido de celdas con inputs
-      celdas[0].innerHTML = '';
-      celdas[0].appendChild(inputNombreNuevo);
+  //reemplazar contenido de celdas con inputs
+  celdas[0].innerHTML = '';
+  celdas[0].appendChild(inputNombreNuevo);
 
-      celdas[1].innerHTML = '';
-      celdas[1].appendChild(inputHoras);
-      celdas[1].appendChild(document.createTextNode('h '));
-      celdas[1].appendChild(inputMinutos);
-      celdas[1].appendChild(document.createTextNode('m'));
+  celdas[1].innerHTML = '';
+  celdas[1].appendChild(inputHoras);
+  celdas[1].appendChild(document.createTextNode('h '));
+  celdas[1].appendChild(inputMinutos);
+  celdas[1].appendChild(document.createTextNode('m'));
 
-      celdas[2].textContent = '';
+  celdas[2].textContent = '';
 
-      //reemplazar boton de editar con botón de guardar
-      const botonGuardarIncidencia = document.createElement('button');
-      botonGuardarIncidencia.className = 'fa-solid fa-check';
-      celdas[3].innerHTML = '';
-      celdas[3].appendChild(botonGuardarIncidencia);
+  //reemplazar boton de editar con botón de guardar
+  const botonGuardarIncidencia = document.createElement('button');
+  botonGuardarIncidencia.className = 'fa-solid fa-check';
+  celdas[3].innerHTML = '';
+  celdas[3].appendChild(botonGuardarIncidencia);
 
-      //reemplazar boton de borrar con botón de cancelar
-      const botonCancelarIncidencia = document.createElement('button');
-      botonCancelarIncidencia.className = 'fa-solid fa-xmark';
-      celdas[4].innerHTML = '';
-      celdas[4].appendChild(botonCancelarIncidencia);
+  //reemplazar boton de borrar con botón de cancelar
+  const botonCancelarIncidencia = document.createElement('button');
+  botonCancelarIncidencia.className = 'fa-solid fa-xmark';
+  celdas[4].innerHTML = '';
+  celdas[4].appendChild(botonCancelarIncidencia);
 
-      //eventos de los botones nuevos
-      botonGuardarIncidencia.addEventListener('click', () => {
-        guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
-      });
+  //eventos de los botones nuevos
+  botonGuardarIncidencia.addEventListener('click', () => {
+    guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
+  });
 
-      inputNombreNuevo.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
-        }
-      });
+  inputNombreNuevo.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
+    }
+  });
 
-      inputHoras.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
-        }
-      });
+  inputHoras.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
+    }
+  });
 
-      inputMinutos.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
-        }
-      });
+  inputMinutos.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      guardarCambios(nombre, inputNombreNuevo, inputHoras, inputMinutos);
+    }
+  });
 
-      botonCancelarIncidencia.addEventListener('click', () => {
-        actualizarTablaIncidencias();
-        actualizarTablaTiempos();
-      });
+  botonCancelarIncidencia.addEventListener('click', () => {
+    actualizarTablaIncidencias();
+    actualizarTablaTiempos();
+  });
 }
 
 //guardar cambios al editar incidencia
@@ -521,7 +497,6 @@ function actualizarTablaTiempos() {
   const totalHoras = pasarHorasMin(tiempoTotal);
   const rangoTotal = calcularRango(tiempoTotal);
 
-  console.log('actualizando tabla tiempos: ' + tiempoTotalTrabajo);
   const minTotales = tiempoTotalTrabajo || 420;
   let txtRestante = pasarHorasMin(minTotales - tiempoTotal);
 
@@ -542,3 +517,109 @@ function actualizarTablaTiempos() {
 
   outRestante.textContent = txtRestante;
 }
+
+//--popups--//
+
+//popup de fecha
+const botonPopup = document.getElementById('boton-popup');
+const popupFecha = document.getElementById('popup-fecha');
+const cerrarPopupFecha = document.getElementById('cerrar-popup-fecha');
+const botonGuardarFecha = document.getElementById('boton-guardar-fecha');
+const inputFecha = document.getElementById('input-fecha');
+const mesSeleccionado = document.getElementById('mes-seleccionado');
+const meses = [
+  'enero',
+  'febrero',
+  'marzo',
+  'abril',
+  'mayo',
+  'junio',
+  'julio',
+  'agosto',
+  'septiembre',
+  'octubre',
+  'noviembre',
+  'diciembre',
+];
+
+botonPopup.addEventListener('click', () => {
+  popupFecha.style.display = 'flex';
+});
+
+botonGuardarFecha.addEventListener('click', () => {
+  const fechaSeleccionada = new Date(inputFecha.value);
+
+  if (
+    fechaSeleccionada instanceof Date &&
+    !isNaN(fechaSeleccionada.getTime())
+  ) {
+    popupFecha.style.display = 'none';
+    popupCalendario.style.display = 'flex';
+
+    const dia = fechaSeleccionada.getDate();
+    const mes = fechaSeleccionada.getMonth();
+    const anio = fechaSeleccionada.getFullYear();
+
+    renderCalendar();
+
+    textoFechaSeleccionada.textContent = `${dia} de ${meses[mes]} del ${anio}`;
+    mesSeleccionado.textContent = meses[mes];
+  } else {
+    mostrarError('Selecciona una fecha');
+  }
+});
+
+cerrarPopupFecha.addEventListener('click', () => {
+  popupFecha.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target === popupFecha) {
+    popupFecha.style.display = 'none';
+  }
+});
+
+//popup de calendario
+const popupCalendario = document.getElementById('popup-calendario');
+const cerrarPopupCalendario = document.getElementById(
+  'cerrar-popup-calendario'
+);
+const textoFechaSeleccionada = document.getElementById(
+  'texto-fecha-seleccionada'
+);
+const etiquetaDias = document.querySelector('.dias');
+const iconosFlechas = document.querySelectorAll('.iconos span');
+const fechaSeleccionada = new Date(inputFecha.value);
+const mes = fechaSeleccionada.getMonth();
+const anio = fechaSeleccionada.getFullYear();
+
+const renderCalendar = () => {
+  
+  let ultimoDiaMes = new Date(anio, mes + 1, 0).getDate();
+  let etiquetaLi = '';
+
+  for (let i = 1; i < ultimoDiaMes; i++) {
+    etiquetaLi += `<li>${i}</li>`;
+  }
+
+  etiquetaDias.innerHTML = etiquetaLi;
+};
+
+iconosFlechas.forEach(icon => {
+  icon.addEventListener('click', () => {
+    mes = icon.id === 'anterior' ? mes - 1 : mes + 1;
+    renderCalendar();
+  });
+});
+
+cerrarPopupCalendario.addEventListener('click', () => {
+  popupCalendario.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target === popupCalendario) {
+    popupCalendario.style.display = 'none';
+  }
+});
+
+//funciones
