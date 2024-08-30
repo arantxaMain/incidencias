@@ -594,18 +594,23 @@ const renderCalendar = (fecha) => {
   const mes = fecha.getMonth();
   const anio = fecha.getFullYear();
  
-  let primerDiaMes = new Date(anio, mes, 1).getDay(),
-  ultimoDiaMes = new Date(anio, mes + 1, 0).getDate(),
-  ultimoDiaMesAnterior = new Date(anio, mes, 0).getDate();
+  const primerDiaMes = new Date(anio, mes, 1).getDay(),
+  ultimaFechaMes = new Date(anio, mes + 1, 0).getDate(),
+  ultimoDiaMes = new Date(anio, mes, ultimaFechaMes).getDay(),
+  ultimaFechaMesAnterior = new Date(anio, mes, 0).getDate();
   let etiquetaLi = '';
 
   for (let i = primerDiaMes; i > 0; i--) {
-    etiquetaLi += `<li class="inactive">${ultimoDiaMesAnterior - i + 1}</li>`;
+    etiquetaLi += `<li class="inactive">${ultimaFechaMesAnterior - i + 1}</li>`;
   }
 
-  for (let i = 1; i <= ultimoDiaMes; i++) {
+  for (let i = 1; i <= ultimaFechaMes; i++) {
     etiquetaLi += `<li>${i}</li>`;
   }
+
+  for (let i = ultimoDiaMes; i < 6; i++) {
+    etiquetaLi += `<li class="inactive">${i - ultimoDiaMes + 1}</li>`;
+  } 
 
   mesSeleccionado.textContent = meses[mes] + ' ' + anio;
   etiquetaDias.innerHTML = etiquetaLi;
