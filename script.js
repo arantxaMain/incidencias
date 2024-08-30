@@ -542,12 +542,14 @@ const meses = [
   'diciembre',
 ];
 
+let fechaActual = new Date();
+
 botonPopup.addEventListener('click', () => {
   popupFecha.style.display = 'flex';
 });
 
 botonGuardarFecha.addEventListener('click', () => {
-  const fechaSeleccionada = new Date(inputFecha.value);
+  let fechaSeleccionada = new Date(inputFecha.value);
 
   if (
     fechaSeleccionada instanceof Date &&
@@ -556,14 +558,16 @@ botonGuardarFecha.addEventListener('click', () => {
     popupFecha.style.display = 'none';
     popupCalendario.style.display = 'flex';
 
+    fechaActual = fechaSeleccionada;
+
     const dia = fechaSeleccionada.getDate();
     const mes = fechaSeleccionada.getMonth();
     const anio = fechaSeleccionada.getFullYear();
 
-    renderCalendar();
+    renderCalendar(fechaActual);
 
     textoFechaSeleccionada.textContent = `${dia} de ${meses[mes]} del ${anio}`;
-    mesSeleccionado.textContent = meses[mes];
+    
   } else {
     mostrarError('Selecciona una fecha');
   }
@@ -581,34 +585,37 @@ window.addEventListener('click', (event) => {
 
 //popup de calendario
 const popupCalendario = document.getElementById('popup-calendario');
-const cerrarPopupCalendario = document.getElementById(
-  'cerrar-popup-calendario'
-);
-const textoFechaSeleccionada = document.getElementById(
-  'texto-fecha-seleccionada'
-);
+const cerrarPopupCalendario = document.getElementById('cerrar-popup-calendario');
+const textoFechaSeleccionada = document.getElementById('texto-fecha-seleccionada');
 const etiquetaDias = document.querySelector('.dias');
 const iconosFlechas = document.querySelectorAll('.iconos span');
-const fechaSeleccionada = new Date(inputFecha.value);
-const mes = fechaSeleccionada.getMonth();
-const anio = fechaSeleccionada.getFullYear();
 
-const renderCalendar = () => {
-  
-  let ultimoDiaMes = new Date(anio, mes + 1, 0).getDate();
+const renderCalendar = (fecha) => {
+  const mes = fecha.getMonth();
+  const anio = fecha.getFullYear();
+ 
+  let primerDiaMes = new Date(anio, mes, 1).getDay(),
+  ultimoDiaMes = new Date(anio, mes + 1, 0).getDate(),
+  ultimoDiaMesAnterior = new Date(anio, mes, 0).getDate();
   let etiquetaLi = '';
 
-  for (let i = 1; i < ultimoDiaMes; i++) {
+  for (let i = primerDiaMes; i > 0; i--) {
+    etiquetaLi += `<li class="inactive">${ultimoDiaMesAnterior - i + 1}</li>`;
+  }
+
+  for (let i = 1; i <= ultimoDiaMes; i++) {
     etiquetaLi += `<li>${i}</li>`;
   }
 
+  mesSeleccionado.textContent = meses[mes] + ' ' + anio;
   etiquetaDias.innerHTML = etiquetaLi;
 };
 
 iconosFlechas.forEach(icon => {
   icon.addEventListener('click', () => {
-    mes = icon.id === 'anterior' ? mes - 1 : mes + 1;
-    renderCalendar();
+    const direction = icon.id === 'anterior' ? -1 : 1;
+    fechaActual.setMonth(fechaActual.getMonth() + direction);
+    renderCalendar(fechaActual);
   });
 });
 
@@ -622,4 +629,3 @@ window.addEventListener('click', (event) => {
   }
 });
 
-//funciones
