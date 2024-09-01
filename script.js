@@ -37,8 +37,6 @@ if (jsonIncidencias && jsonOrdenIncidencias) {
 //--eventos--//
 
 //popup de horas trabajadas
-const now = new Date();
-
 const botonHoras = document.getElementById('boton-horas');
 
 botonHoras.addEventListener('click', async () => {
@@ -144,6 +142,7 @@ function mostrarError(mensaje) {
 
 //hora actual
 function setHoraActual(input) {
+  const now = new Date();
   const hours = String(now.getHours()).padStart(2, '0');
   const minutes = String(now.getMinutes()).padStart(2, '0');
   input.value = `${hours}:${minutes}`;
