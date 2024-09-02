@@ -153,6 +153,12 @@
   cursor:default;
   text-align: left;
   width: 400px;
+
+  .fa-check {
+    background: inherit;
+    color: inherit;
+    margin-left: 5px;
+  }
 }
 
 .fa-square-plus {
@@ -161,8 +167,10 @@
 
 #input-tarea {
   border-style: none;
+  width: 90%;
 }
 
-.lista-tareas {
+#lista-tareas {
   list-style: none;
+  margin-left: -45px;
 }

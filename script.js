@@ -667,6 +667,7 @@ botonTareas.addEventListener('click', () => {
 
 botonAniadirTarea.addEventListener('click', () => {
   inputTarea.disabled = false;
+  inputTarea.focus();
   inputTarea.style.borderStyle = 'solid';
   inputTarea.style.cursor = 'text';
 });
@@ -679,9 +680,23 @@ inputTarea.addEventListener('keydown', function (event) {
 
     if (textoTarea) {
       const nuevaTarea = document.createElement('li');
-      nuevaTarea.textContent = textoTarea;
+      const iconoHecho = document.createElement('i');
+      iconoHecho.className = 'fa-solid fa-check';
+      iconoHecho.addEventListener('click', () => {
+        if (nuevaTarea.style.textDecoration === 'line-through') {
+          nuevaTarea.style.textDecoration = 'none';
+        } else {
+          nuevaTarea.style.textDecoration = 'line-through';
+        }
+      });
+
+      const texto = document.createTextNode(' ' + textoTarea);
+
+      nuevaTarea.appendChild(iconoHecho);
+      nuevaTarea.appendChild(texto);
       listaTareas.appendChild(nuevaTarea);
       inputTarea.value = '';
     }
   }
 });
+
