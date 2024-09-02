@@ -526,10 +526,22 @@ const botonGuardarFecha = document.getElementById('boton-guardar-fecha');
 const inputFecha = document.getElementById('input-fecha');
 const mesSeleccionado = document.getElementById('mes-seleccionado');
 const cerrarPopups = document.querySelectorAll('.cerrar-popup');
-const textoFechaSeleccionada = document.getElementById('texto-fecha-seleccionada');
+const textoFechaSeleccionada = document.getElementById(
+  'texto-fecha-seleccionada'
+);
 const meses = [
-  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+  'enero',
+  'febrero',
+  'marzo',
+  'abril',
+  'mayo',
+  'junio',
+  'julio',
+  'agosto',
+  'septiembre',
+  'octubre',
+  'noviembre',
+  'diciembre',
 ];
 
 let fechaActual = new Date();
@@ -541,7 +553,10 @@ botonPopup.addEventListener('click', () => {
 botonGuardarFecha.addEventListener('click', () => {
   let fechaSeleccionada = new Date(inputFecha.value);
 
-  if (fechaSeleccionada instanceof Date && !isNaN(fechaSeleccionada.getTime())) {
+  if (
+    fechaSeleccionada instanceof Date &&
+    !isNaN(fechaSeleccionada.getTime())
+  ) {
     popupFecha.style.display = 'none';
     popupCalendario.style.display = 'flex';
 
@@ -564,7 +579,9 @@ cerrarPopups.forEach((boton) => {
 //popup de calendario
 const popupCalendario = document.getElementById('popup-calendario');
 const etiquetaDias = document.querySelector('.dias');
-const iconosFlechas = document.querySelectorAll('.iconos-calendario-flechas span');
+const iconosFlechas = document.querySelectorAll(
+  '.iconos-calendario-flechas span'
+);
 
 const renderCalendar = (fecha) => {
   const dia = fecha.getDate();
@@ -605,8 +622,17 @@ const renderCalendar = (fecha) => {
       const nuevoDiaSeleccionado = event.target;
       nuevoDiaSeleccionado.classList.add('active');
 
+      if (nuevoDiaSeleccionado.classList.contains('inactive')) {
+        if (nuevoDiaSeleccionado.textContent > 15) {
+          fechaActual.setMonth(fechaActual.getMonth() - 1);
+        } else {
+          fechaActual.setMonth(fechaActual.getMonth() + 1);
+        }
+      }
+
       fechaActual.setDate(parseInt(nuevoDiaSeleccionado.textContent));
       actualizarFechaSeleccionada(fechaActual);
+      renderCalendar(fechaActual);
     });
   });
 };
@@ -616,7 +642,7 @@ const actualizarFechaSeleccionada = (fecha) => {
   const mes = fecha.getMonth();
   const anio = fecha.getFullYear();
   textoFechaSeleccionada.textContent = `${dia} de ${meses[mes]} del ${anio}`;
-}
+};
 
 iconosFlechas.forEach((icon) => {
   icon.addEventListener('click', () => {
@@ -642,7 +668,6 @@ window.addEventListener('keydown', function (event) {
     popupCalendario.style.display = 'none';
   }
 });
-
 
 //popup tareas
 const botonTareas = document.getElementById('boton-tareas');
