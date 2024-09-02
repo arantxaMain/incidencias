@@ -157,7 +157,12 @@
   .fa-check {
     background: inherit;
     color: inherit;
-    margin-left: 5px;
+  }
+
+  .fa-trash {
+    background: inherit;
+    color: inherit;
+    font-size: 90%;
   }
 }
 
@@ -172,5 +177,13 @@
 
 #lista-tareas {
   list-style: none;
-  margin-left: -45px;
+  margin-left: -40px;
+  margin-right: 40;
+}
+
+.nueva-tarea {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 95.5%;
 }

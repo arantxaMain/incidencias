@@ -680,6 +680,8 @@ inputTarea.addEventListener('keydown', function (event) {
 
     if (textoTarea) {
       const nuevaTarea = document.createElement('li');
+      nuevaTarea.className = 'nueva-tarea';
+      const spanTarea = document.createElement('span');
       const iconoHecho = document.createElement('i');
       iconoHecho.className = 'fa-solid fa-check';
       iconoHecho.addEventListener('click', () => {
@@ -692,11 +694,16 @@ inputTarea.addEventListener('keydown', function (event) {
 
       const texto = document.createTextNode(' ' + textoTarea);
 
-      nuevaTarea.appendChild(iconoHecho);
-      nuevaTarea.appendChild(texto);
+      spanTarea.appendChild(iconoHecho);
+      spanTarea.appendChild(texto);
+
+      const iconoBorrar = document.createElement('i');
+      iconoBorrar.className = 'fa-solid fa-trash';
+
+      nuevaTarea.appendChild(spanTarea);
+      nuevaTarea.appendChild(iconoBorrar);
       listaTareas.appendChild(nuevaTarea);
       inputTarea.value = '';
     }
   }
 });
-
