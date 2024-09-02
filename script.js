@@ -657,7 +657,31 @@ window.addEventListener('keydown', function (event) {
 //popup tareas
 const botonTareas = document.getElementById('boton-tareas');
 const popupTareas = document.getElementById('popup-tareas');
+const botonAniadirTarea = document.getElementById('boton-aniadir-tarea');
+const inputTarea = document.getElementById('input-tarea');
 
 botonTareas.addEventListener('click', () => {
   popupTareas.style.display = 'flex';
+  inputTarea.disabled = true;
+});
+
+botonAniadirTarea.addEventListener('click', () => {
+  inputTarea.disabled = false;
+  inputTarea.style.borderStyle = 'solid';
+  inputTarea.style.cursor = 'text';
+});
+
+const listaTareas = document.getElementById('lista-tareas');
+
+inputTarea.addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    const textoTarea = inputTarea.value.trim();
+
+    if (textoTarea) {
+      const nuevaTarea = document.createElement('li');
+      nuevaTarea.textContent = textoTarea;
+      listaTareas.appendChild(nuevaTarea);
+      inputTarea.value = '';
+    }
+  }
 });

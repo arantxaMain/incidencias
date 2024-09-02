@@ -150,6 +150,19 @@
 
 /* tareas */
 .tareas {
+  cursor:default;
   text-align: left;
   width: 400px;
+}
+
+.fa-square-plus {
+  cursor: pointer;
+}
+
+#input-tarea {
+  border-style: none;
+}
+
+.lista-tareas {
+  list-style: none;
 }
