@@ -1,5 +1,5 @@
 /* fecha */
-.popup-fecha {
+.popup {
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
   display: none;
@@ -12,53 +12,36 @@
   z-index: 1000;
 }
 
-.popup-content-fecha {
+.popup-content {
   background: #fff;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   max-width: 90%;
   padding: 20px;
   text-align: center;
+}
+
+.fecha {
   width: 400px;
 }
 
-#cerrar-popup-fecha {
+.cerrar-popup {
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-#cerrar-popup-fecha:hover,
-#cerrar-popup-fecha:focus {
+.cerrar-popup:hover,
+.cerrar-popup:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
 
 /* calendario */
-.popup-calendario {
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  display: none;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-.popup-content-calendario {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-  box-sizing: border-box;
-  max-width: 90%;
-  padding: 20px;
-  text-align: center;
+.calendario {
   width: 500px;
 
   #cabecera-calendario {
@@ -75,7 +58,7 @@
   }
 }
 
-.iconos {
+.iconos-calendario-flechas {
   display: flex;
 
   span {
@@ -160,16 +143,13 @@
   }
 }
 
-#cerrar-popup-calendario {
-  color: #aaa;
-  font-size: 28px;
-  font-weight: bold;
+#boton-tareas {
   cursor: pointer;
-  float: right;
+  font-size:large;
 }
 
-#cerrar-popup-calendario:hover,
-#cerrar-popup-calendario:focus {
-  color: black;
-  text-decoration: none;
+/* tareas */
+.tareas {
+  text-align: left;
+  width: 400px;
 }

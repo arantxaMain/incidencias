@@ -10,13 +10,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 </head>
 
 <body>
   <div class="div-cabecera">
     <h1>Registro de incidencias</h1>
-    <div class="div-iconos-izquierda">
+    <div class="iconos-principal-izquierda">
       <button type="button" id="boton-popup">
         <i class="fa-solid fa-calendar"></i>
       </button>
@@ -25,7 +26,7 @@
       </button>
       <span class="texto-centro" id="texto-horas-trabajadas"></span>
     </div>
-    <div class="div-iconos-derecha">
+    <div class="iconos-principal-derecha">
       <button type="button"><i class="fa-solid fa-upload"></i></button>
       <button type="button"><i class="fa-solid fa-download"></i></button>
     </div>
@@ -101,9 +102,9 @@
   </div>
 
   <!-- popup fecha -->
-  <div id="popup-fecha" class="popup-fecha"> 
-    <div class="popup-content-fecha">
-      <span id="cerrar-popup-fecha">&times;</span>
+  <div id="popup-fecha" class="popup">
+    <div class="popup-content fecha">
+      <span class="cerrar-popup">&times;</span>
       <h2>Selecciona una fecha</h2>
       <input type="date" id="input-fecha" />
       <button id="boton-guardar-fecha">Guardar fecha</button>
@@ -111,18 +112,18 @@
   </div>
 
   <!-- popup calendario -->
-  <div id="popup-calendario" class="popup-calendario"> <!-- body -->
-    <div class="popup-content-calendario"> <!-- wrapper -->
-      <span id="cerrar-popup-calendario">&times;</span>
+  <div id="popup-calendario" class="popup">
+    <div class="popup-content calendario">
+      <span class="cerrar-popup">&times;</span>
       <h2 id="texto-fecha-seleccionada"></h2>
-      <div id="cabecera-calendario"> <!-- header -->
+      <div id="cabecera-calendario">
         <h3 id="mes-seleccionado"></h3>
-        <div class="iconos">
+        <div class="iconos-calendario-flechas">
           <span id="anterior" class="material-symbols-rounded">chevron_left</span>
           <span id="siguiente" class="material-symbols-rounded">chevron_right</span>
         </div>
       </div>
-      <div class="cuerpo-calendario"> <!-- calendar -->
+      <div class="cuerpo-calendario">
         <ul class="semanas">
           <li>Lun</li>
           <li>Mar</li>
@@ -134,6 +135,20 @@
         </ul>
         <ul class="dias"></ul>
       </div>
+      <div class="iconos-calendario-abajo">
+        <span id="boton-tareas">
+          <i class="fa-solid fa-clipboard-check"></i> tareas
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- popup tareas -->
+  <div id="popup-tareas" class="popup">
+    <div class="popup-content tareas">
+      <span class="cerrar-popup">&times;</span>
+      <h3>Tareas:</h3>
+      <i class="fa-solid fa-square-plus"></i>
     </div>
   </div>
 

@@ -522,10 +522,10 @@ function actualizarTablaTiempos() {
 //popup de fecha
 const botonPopup = document.getElementById('boton-popup');
 const popupFecha = document.getElementById('popup-fecha');
-const cerrarPopupFecha = document.getElementById('cerrar-popup-fecha');
 const botonGuardarFecha = document.getElementById('boton-guardar-fecha');
 const inputFecha = document.getElementById('input-fecha');
 const mesSeleccionado = document.getElementById('mes-seleccionado');
+const cerrarPopups = document.querySelectorAll('.cerrar-popup');
 const meses = [
   'enero',
   'febrero',
@@ -566,26 +566,25 @@ botonGuardarFecha.addEventListener('click', () => {
     renderCalendar(fechaActual);
 
     textoFechaSeleccionada.textContent = `${dia} de ${meses[mes]} del ${anio}`;
-    
   } else {
     mostrarError('Selecciona una fecha');
   }
 });
 
-cerrarPopupFecha.addEventListener('click', () => {
-  popupFecha.style.display = 'none';
-});
-
-window.addEventListener('click', (event) => {
-  if (event.target === popupFecha) {
-    popupFecha.style.display = 'none';
-  }
+cerrarPopups.forEach((boton) => {
+  boton.addEventListener('click', (event) => {
+    const popup = event.target.closest('.popup');
+    if (popup) {
+      popup.style.display = 'none';
+    }
+  });
 });
 
 //popup de calendario
 const popupCalendario = document.getElementById('popup-calendario');
-const cerrarPopupCalendario = document.getElementById('cerrar-popup-calendario');
-const textoFechaSeleccionada = document.getElementById('texto-fecha-seleccionada');
+const textoFechaSeleccionada = document.getElementById(
+  'texto-fecha-seleccionada'
+);
 const etiquetaDias = document.querySelector('.dias');
 const iconosFlechas = document.querySelectorAll('.iconos span');
 
@@ -593,11 +592,11 @@ const renderCalendar = (fecha) => {
   const dia = fecha.getDate();
   const mes = fecha.getMonth();
   const anio = fecha.getFullYear();
- 
+
   const primerDiaMes = new Date(anio, mes, 1).getDay(),
-  ultimaFechaMes = new Date(anio, mes + 1, 0).getDate(),
-  ultimoDiaMes = new Date(anio, mes, ultimaFechaMes).getDay(),
-  ultimaFechaMesAnterior = new Date(anio, mes, 0).getDate();
+    ultimaFechaMes = new Date(anio, mes + 1, 0).getDate(),
+    ultimoDiaMes = new Date(anio, mes, ultimaFechaMes).getDay(),
+    ultimaFechaMesAnterior = new Date(anio, mes, 0).getDate();
   let etiquetaLi = '';
 
   for (let i = primerDiaMes; i > 0; i--) {
@@ -611,13 +610,27 @@ const renderCalendar = (fecha) => {
 
   for (let i = ultimoDiaMes; i < 6; i++) {
     etiquetaLi += `<li class="inactive">${i - ultimoDiaMes + 1}</li>`;
-  } 
+  }
 
   mesSeleccionado.textContent = meses[mes] + ' ' + anio;
   etiquetaDias.innerHTML = etiquetaLi;
+
+  const dias = document.querySelectorAll('.dias li');
+
+  dias.forEach((dia) => {
+    dia.addEventListener('click', (event) => {
+      const anteriorDiaSeleccionado = document.querySelector('.dias li.active');
+      if (anteriorDiaSeleccionado) {
+        anteriorDiaSeleccionado.classList.remove('active');
+      }
+
+      const nuevoDiaSeleccionado = event.target;
+      nuevoDiaSeleccionado.classList.add('active');
+    });
+  });
 };
 
-iconosFlechas.forEach(icon => {
+iconosFlechas.forEach((icon) => {
   icon.addEventListener('click', () => {
     const direction = icon.id === 'anterior' ? -1 : 1;
     fechaActual.setMonth(fechaActual.getMonth() + direction);
@@ -625,13 +638,26 @@ iconosFlechas.forEach(icon => {
   });
 });
 
-cerrarPopupCalendario.addEventListener('click', () => {
-  popupCalendario.style.display = 'none';
-});
-
+//cerrar popups clicando fuera
 window.addEventListener('click', (event) => {
   if (event.target === popupCalendario) {
+    popupFecha.style.display = 'none';
     popupCalendario.style.display = 'none';
   }
 });
 
+//cerrar popups dando a escape
+window.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') {
+    popupFecha.style.display = 'none';
+    popupCalendario.style.display = 'none';
+  }
+});
+
+//popup tareas
+const botonTareas = document.getElementById('boton-tareas');
+const popupTareas = document.getElementById('popup-tareas');
+
+botonTareas.addEventListener('click', () => {
+  popupTareas.style.display = 'flex';
+});
